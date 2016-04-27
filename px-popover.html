@@ -108,7 +108,7 @@ elements are not supported.
                 value: 'auto'
             },
             /**
-             * The String to be display in the popover title
+             * The title that will be displayed in the popover.
              */
             popoverTitle: {
                 type: String,
@@ -116,7 +116,7 @@ elements are not supported.
                 value: 'This is a px-popover'
             },
             /**
-             * The String to be display as the popover body
+             * The body text that will be displayed in the popover. Note: Does not support HTML elements within the body.
              */
             popoverBody: {
                 type: String,
@@ -124,7 +124,7 @@ elements are not supported.
                 value: 'Capable of displaying a longer body text than a tootip.'
             },
             /**
-             * If the popover is in a position relative or static ancestor
+             * If the target/popover are descendent of a relative position element, wrap the target and popover in another element with relative positioning and set this flag to "relative"
              */
             position: {
               type:String,
@@ -138,7 +138,7 @@ elements are not supported.
             if (this.for) {
                 target = parentNode.querySelector('#' + this.for);
             //if web component
-            } else if (parentNode.nodeType == 11) { // DOCUMENT_FRAGMENT_NODE
+          } else if (parentNode.nodeType === 11) { // DOCUMENT_FRAGMENT_NODE
                 target = ownerRoot.host;
             } else {
                 target = parentNode;
@@ -179,7 +179,7 @@ elements are not supported.
         _isDescendant: function (parent, child) {
         var node = child.parentNode;
             while (node != null) {
-                if (node == parent) {
+                if (node === parent) {
                     return true;
                 }
                 node = node.parentNode;
@@ -190,6 +190,8 @@ elements are not supported.
          * Determines if event should yield a change in the popover visibility and sets up vars associated with the type of show event
          *
          * @method _toggle
+         * @param {event}
+         * @return {Boolean}
          */
         _toggle: function (event) {
             // hide the popover if a click is coming from the outside
@@ -220,7 +222,7 @@ elements are not supported.
          */
         _show: function () {
             // show this thing
-            this.toggleClass('fadeFromHidden',true)
+            this.toggleClass('fadeFromHidden',true);
             this._setPosition();
             this._isShowing = true;
             this.fire('px-popover-show', {
@@ -237,20 +239,22 @@ elements are not supported.
          */
         _hide: function () {
             // hide this thing
-            this.toggleClass('fadeFromHidden',false)
+            this.toggleClass('fadeFromHidden',false);
             this._isShowing = false;
 
             // get rid of the scroll listener
             this.unlisten(window, 'scroll', '_toggle');
         },
         /**
-         * Calcs which direction the popover should go and creates vars used in positioning the popover
+         * Calculates which direction the popover should go and creates vars used in positioning the popover
          *
          * @method _setPosition
          */
         _setPosition: function() {
-            if (!this._target)
+            if (!this._target) {
               return;
+            }
+
             // using this method so that we can calucate the best position
             // in the _positionXXX methods without having to do recursion.
             this.parentRect = this.offsetParent.getBoundingClientRect();
@@ -271,27 +275,28 @@ elements are not supported.
             }
 
         },
+        /**
+         * Sets the auto position to right.
+         *
+         * @method _autoPositon
+         */
         _autoPositon: function () {
             this._positionRight();
         },
         /**
          * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
          *
-         * @method _positionTop,_positionBottom,_positionLeft,_positionRight
+         * @method _positionTop
          */
         _positionTop: function () {
             // add the style to the carat
             this.$.carat.classList.add(this._values.TYPE.top);
-            console.log(this.targetRect);
-
             // position the popover itself
             if(this.inRelativeElement()){
               var xCoord = this.targetRect.width/2 - this.thisRect.width/2 - this.margin;
               var yCoord = 0 - this.thisRect.height - this.margin * 2;
               this.$.popoverWrapper.style.top =  yCoord + 'px';
               this.$.popoverWrapper.style.left = xCoord + 'px';
-              console.log('rel');
-
             } else{
               this.$.popoverWrapper.style.left = this.targetRect.left + window.pageXOffset - this.thisRect.width/2 + this.targetRect.width/2 - this.margin + 'px';
               this.$.popoverWrapper.style.top = this.targetRect.top + window.pageYOffset - this.thisRect.height - this.margin * 2 + 'px';
@@ -302,6 +307,11 @@ elements are not supported.
             this.$.carat.style.left = this.thisRect.width/2 - this.margin + 'px';
             this.$.carat.style.top = this.thisRect.height - this.caratRect.height + 1 + 'px';
         },
+        /**
+         * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
+         *
+         * @method _positionBottom
+         */
         _positionBottom: function () {
             // add the style to the carat
             //
@@ -322,6 +332,11 @@ elements are not supported.
             this.$.carat.style.left = this.thisRect.width/2 - this.margin + 'px';
             this.$.carat.style.top = '3px';
         },
+        /**
+         * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
+         *
+         * @method _positionLeft
+         */
         _positionLeft: function () {
             // add the style to the carat
             this.$.carat.classList.add(this._values.TYPE.left);
@@ -342,6 +357,11 @@ elements are not supported.
             this.$.carat.style.top = this.thisRect.height/2 - this.margin + 'px';
             this.$.carat.style.left = this.thisRect.width - this.caratRect.width/2 - this.margin + 'px';
         },
+        /**
+         * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
+         *
+         * @method _positionRight
+         */
         _positionRight: function () {
             this.$.carat.classList.add(this._values.TYPE.right);
             this.caratRect = this.$.carat.getBoundingClientRect();
@@ -361,12 +381,11 @@ elements are not supported.
             this.$.carat.style.left = '2px';
         },
         inRelativeElement: function(){
-          if(this.position != "relative"){
-            return false
+          if(this.position !== "relative"){
+            return false;
           } else {
-            return true
+            return true;
           }
         }
-
     });
 </script>

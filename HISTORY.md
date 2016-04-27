@@ -1,4 +1,8 @@
-v1.1.3 
+v1.1.4
+=================
+* Updated README file and included link to API on github pages.
+
+v1.1.3
 =================
 * Updated License
 
