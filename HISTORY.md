@@ -1,3 +1,8 @@
+v1.2.0
+=================
+* Upgrade to Polymer 1.4.0
+
+
 v1.1.4
 =================
 * Updated README file and included link to API on github pages.
