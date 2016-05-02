@@ -221,7 +221,7 @@
                       var margin = 5;
                       var popDown = document.querySelector('#testPopoverDown #popoverWrapper').getBoundingClientRect().top;
                       var btnDown = document.querySelector('#btnDown').getBoundingClientRect().bottom + margin;
-                      assert.closeTo(btnDown, popDown, 1, 'numbers are close');
+                      assert.closeTo(btnDown, popDown, 1.1, 'numbers are close');
                       done();
                     });
                 });
@@ -345,7 +345,7 @@
                       var margin = 5;
                       var popTop = document.querySelector('#testPopoverUpRel #popoverWrapper').getBoundingClientRect().bottom;
                       var btnTop = document.querySelector('#btnUpRel').getBoundingClientRect().top - margin;
-                      assert.closeTo(btnTop, popTop, 1.15, 'numbers are close');
+                      assert.closeTo(btnTop, popTop, 2, 'numbers are close');
                       done();
                     });
                 });
@@ -355,7 +355,7 @@
                     flush(function() {
                       var popTop = document.querySelector('#testPopoverUpRel #popoverWrapper').getBoundingClientRect().left + document.querySelector('#testPopoverUpRel #popoverWrapper').getBoundingClientRect().width/2;
                       var btnTop = document.querySelector('#btnUpRel').getBoundingClientRect().left + document.querySelector('#btnUpRel').getBoundingClientRect().width/2;
-                      assert.closeTo(btnTop, popTop, 1.1, 'numbers are close');
+                      assert.closeTo(btnTop, popTop, 2, 'numbers are close');
                       done();
                     });
                 });
@@ -386,7 +386,7 @@
                       var margin = 5;
                       var popDown = document.querySelector('#testPopoverDownRel #popoverWrapper').getBoundingClientRect().top;
                       var btnDown = document.querySelector('#btnDownRel').getBoundingClientRect().bottom + margin;
-                      assert.closeTo(btnDown, popDown, 1.1, 'numbers are close');
+                      assert.closeTo(btnDown, popDown, 2, 'numbers are close');
                       done();
                     });
                 });
@@ -396,7 +396,7 @@
                     flush(function() {
                       var popDown = document.querySelector('#testPopoverDownRel #popoverWrapper').getBoundingClientRect().left + document.querySelector('#testPopoverDownRel #popoverWrapper').getBoundingClientRect().width/2;
                       var btnDown = document.querySelector('#btnDownRel').getBoundingClientRect().left + document.querySelector('#btnDownRel').getBoundingClientRect().width/2;
-                      assert.closeTo(btnDown, popDown, 1.1, 'numbers are close');
+                      assert.closeTo(btnDown, popDown, 2, 'numbers are close');
                       done();
                     });
                 });
@@ -426,7 +426,7 @@
                     flush(function() {
                       var popLeft = document.querySelector('#testPopoverLeftRel #popoverWrapper').getBoundingClientRect().top + document.querySelector('#testPopoverLeftRel #popoverWrapper').getBoundingClientRect().height/2;
                       var btnLeft = document.querySelector('#btnLeftRel').getBoundingClientRect().top + document.querySelector('#btnLeftRel').getBoundingClientRect().height/2;
-                      assert.closeTo(btnLeft, popLeft, 1.1, 'numbers are close');
+                      assert.closeTo(btnLeft, popLeft, 2, 'numbers are close');
                       done();
                     });
                 });
@@ -437,7 +437,7 @@
                       var margin = 5;
                       var popLeft = document.querySelector('#testPopoverLeftRel #popoverWrapper').getBoundingClientRect().right + margin;
                       var btnLeft = document.querySelector('#btnLeftRel').getBoundingClientRect().left;
-                      assert.closeTo(btnLeft, popLeft, 1.1, 'numbers are close');
+                      assert.closeTo(btnLeft, popLeft, 2, 'numbers are close');
                       done();
                     });
                 });
@@ -467,7 +467,7 @@
                     flush(function() {
                       var popRight = document.querySelector('#testPopoverRightRel #popoverWrapper').getBoundingClientRect().top + document.querySelector('#testPopoverRightRel #popoverWrapper').getBoundingClientRect().height/2;
                       var btnRight = document.querySelector('#btnRightRel').getBoundingClientRect().top + document.querySelector('#btnRightRel').getBoundingClientRect().height/2;
-                      assert.closeTo(btnRight, popRight, 1.1, 'numbers are close');
+                      assert.closeTo(btnRight, popRight, 2, 'numbers are close');
                       done();
                     });
                 });
@@ -478,7 +478,7 @@
                       var margin = 5;
                       var popRight = document.querySelector('#testPopoverRightRel #popoverWrapper').getBoundingClientRect().left - margin;
                       var btnRight = document.querySelector('#btnRightRel').getBoundingClientRect().right;
-                      assert.closeTo(btnRight, popRight, 1.1, 'numbers are close');
+                      assert.closeTo(btnRight, popRight, 2, 'numbers are close');
                       done();
                     });
                 });
