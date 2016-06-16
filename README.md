@@ -1,4 +1,4 @@
-# Px-Popover
+# Px-Popover [![Build Status](https://travis-ci.org/PredixDev/px-popover.svg?branch=master)](https://travis-ci.org/PredixDev/px-popover)
 
 ## Overview
 
