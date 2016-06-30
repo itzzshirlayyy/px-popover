@@ -1,3 +1,7 @@
+v1.4.0
+=================
+* Fix for shadow dom support. Made show() and hide() public. Added hideOverlay property
+
 v1.2.3
 =================
 * added oss_notice to bower ignore

@@ -593,19 +593,20 @@ a {
 .viewport--full-height {
   min-height: 100vh; }
 
-:host {
-  opacity: 0;
-  visibility: hidden;
-  transition: visibility 0s .10s, opacity .10s ease-out; }
-  :host.fadeFromHidden {
-    transition: opacity .10s ease-out;
-    opacity: 1;
-    visibility: visible; }
-
 #popoverWrapper {
   position: absolute;
   z-index: 1005;
   margin: 5px; }
+
+.fadeFromVisible {
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0s .10s, opacity .10s ease-out; }
+
+.fadeFromHidden {
+  transition: opacity .10s ease-out;
+  opacity: 1;
+  visibility: visible; }
 
 #popover {
   outline: none;
