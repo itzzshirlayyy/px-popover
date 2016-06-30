@@ -91,7 +91,7 @@ elements are not supported.
             for: {
                 type: String,
                 reflect: true,
-                value: 'prev'
+                observer: '_forChanged'
             },
             /**
              * The direction that the popover is displayed relative to the
@@ -131,22 +131,43 @@ elements are not supported.
               value:"absolute"
             }
         },
-        get target () {
-            var ownerRoot = Polymer.dom(this).getOwnerRoot();
-            var parentNode = this.parentNode;
-            var target;
-            if (this.for) {
-                target = parentNode.querySelector('#' + this.for);
-            //if web component
-          } else if (parentNode.nodeType === 11) { // DOCUMENT_FRAGMENT_NODE
-                target = ownerRoot.host;
-            } else {
-                target = parentNode;
-            }
-            return target;
+        _getTarget: function() {
+          var ownerRoot = Polymer.dom(this).getOwnerRoot(),
+              parentNode = Polymer.dom(this).parentNode,
+              target;
+
+          if(this.for && typeof(this.for) === 'string') {
+            target = Polymer.dom(parentNode).querySelector('#' + this.for);
+          }else if(this.for && typeof(this.for) === 'object') {
+            target = this.for;
+          }
+          //DOCUMENT_FRAGMENT_NODE
+          else if(parentNode.nodeType === 11) {
+              //at this point if we can't find the acual owner root
+              //we're probably not attached yet. Just set it to null
+              //and wait for 'this' to be attached and rerun this function
+              target = ownerRoot ? ownerRoot.host : null;
+          }
+          else {
+            target = parentNode;
+          }
+          return target;
         },
         listeners: {
             'iron-resize': '_onIronResize'
+        },
+        _forChanged: function() {
+          if(this._target){
+            this.unlisten(this._target, 'click', '_toggle');
+            this.unlisten(this, 'click', '_toggle');
+          }
+
+          this._target = this._getTarget();
+
+          if(this._target){
+            this.listen(this._target, 'click', '_toggle');
+            this.listen(this, 'click', '_toggle');
+          }
         },
         /**
          * sets up listeners when popover is created
@@ -154,11 +175,7 @@ elements are not supported.
          * @method attached
          */
         attached: function () {
-            this._target = this.target;
-
-            // we always listen to click so we can close when clicked outside
-            this.listen(this._target, 'click', '_toggle');
-            this.listen(this, 'click', '_toggle');
+            this._forChanged();
         },
         /**
          * sets up listeners when popover is destroyed
