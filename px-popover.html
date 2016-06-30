@@ -47,8 +47,10 @@ elements are not supported.
 <dom-module id="px-popover">
     <link rel="import" type="css" href="css/px-popover.css"/>
     <template>
-      <px-overlay type="light"></px-overlay>
-      <div id="popoverWrapper">
+      <template is="dom-if" if="{{!hideOverlay}}">
+        <px-overlay type="light" class="fadeFromVisible"></px-overlay>
+      </template>
+      <div id="popoverWrapper" class="fadeFromVisible">
           <div id="carat"></div>
           <div id="popover">
               <p class="weight--semibold">{{popoverTitle}}</p>
@@ -91,7 +93,7 @@ elements are not supported.
             for: {
                 type: String,
                 reflect: true,
-                value: 'prev'
+                observer: '_forChanged'
             },
             /**
              * The direction that the popover is displayed relative to the
@@ -129,24 +131,54 @@ elements are not supported.
             position: {
               type:String,
               value:"absolute"
+            },
+            /**
+             * Allows to hide the overlay when popover is shown
+             *
+             */
+            hideOverlay: {
+              type: Boolean,
+              value: false,
+              observer: 'hideOverlayChanged'
             }
         },
-        get target () {
-            var ownerRoot = Polymer.dom(this).getOwnerRoot();
-            var parentNode = this.parentNode;
-            var target;
-            if (this.for) {
-                target = parentNode.querySelector('#' + this.for);
-            //if web component
-          } else if (parentNode.nodeType === 11) { // DOCUMENT_FRAGMENT_NODE
-                target = ownerRoot.host;
-            } else {
-                target = parentNode;
-            }
-            return target;
+        _getTarget: function() {
+          var ownerRoot = Polymer.dom(this).getOwnerRoot(),
+              parentNode = Polymer.dom(this).parentNode,
+              target;
+
+          if(this.for && typeof(this.for) === 'string') {
+            target = Polymer.dom(parentNode).querySelector('#' + this.for);
+          }else if(this.for && typeof(this.for) === 'object') {
+            target = this.for;
+          }
+          //DOCUMENT_FRAGMENT_NODE
+          else if(parentNode.nodeType === 11) {
+              //at this point if we can't find the acual owner root
+              //we're probably not attached yet. Just set it to null
+              //and wait for 'this' to be attached and rerun this function
+              target = ownerRoot ? ownerRoot.host : null;
+          }
+          else {
+            target = parentNode;
+          }
+          return target;
         },
         listeners: {
             'iron-resize': '_onIronResize'
+        },
+        _forChanged: function() {
+          if(this._target){
+            this.unlisten(this._target, 'click', '_toggle');
+            this.unlisten(this, 'click', '_toggle');
+          }
+
+          this._target = this._getTarget();
+
+          if(this._target){
+            this.listen(this._target, 'click', '_toggle');
+            this.listen(this, 'click', '_toggle');
+          }
         },
         /**
          * sets up listeners when popover is created
@@ -154,11 +186,14 @@ elements are not supported.
          * @method attached
          */
         attached: function () {
-            this._target = this.target;
+          // Enable document-wide tap recognizer.
+          Polymer.Gestures.add(document, 'tap', null);
 
-            // we always listen to click so we can close when clicked outside
-            this.listen(this._target, 'click', '_toggle');
-            this.listen(this, 'click', '_toggle');
+          //search for target
+          this._forChanged();
+
+          //if overlay is hidden make sure popover will be closed on any other click
+          this.hideOverlayChanged(this.hideOverlay);
         },
         /**
          * sets up listeners when popover is destroyed
@@ -170,6 +205,7 @@ elements are not supported.
             this.unlisten(window, 'scroll', '_toggle');
             // click
             this.unlisten(document, 'click', '_toggle');
+            this.hideOverlayChanged(false);
         },
         _onIronResize: function () {
             if(this._isShowing) {
@@ -201,14 +237,14 @@ elements are not supported.
                 } else {
                     if(event.target.id === this.for) {
                         if(this._isShowing) {
-                            this._hide();
+                            this.hide();
                         } else {
-                            this._show();
+                            this.show();
                         }
                         return false;
                     } else { // not our target
                         if(this._isShowing) {
-                            this._hide();
+                            this.hide();
                             return false;
                         }
                     }
@@ -218,11 +254,12 @@ elements are not supported.
         /**
          * Display the popover
          *
-         * @method _show
+         * @method show
          */
-        _show: function () {
+        show: function () {
             // show this thing
-            this.toggleClass('fadeFromHidden',true);
+            this.toggleClass('fadeFromHidden',true, this.$.popoverWrapper);
+            this.toggleClass('fadeFromHidden',true, this.$$('px-overlay'));
             this._setPosition();
             this._isShowing = true;
             this.fire('px-popover-show', {
@@ -230,16 +267,17 @@ elements are not supported.
             });
 
             // listen for a scroll so we can turn off the overlay/popover if the user scrolls away
-            // this.listen(window, 'scroll', '_hide');
+            // this.listen(window, 'scroll', 'hide');
         },
         /**
          * Hide the popover
          *
-         * @method _hide
+         * @method hide
          */
-        _hide: function () {
+        hide: function () {
             // hide this thing
-            this.toggleClass('fadeFromHidden',false);
+            this.toggleClass('fadeFromHidden',false, this.$.popoverWrapper);
+            this.toggleClass('fadeFromHidden',false, this.$$('px-overlay'));
             this._isShowing = false;
 
             // get rid of the scroll listener
@@ -385,6 +423,33 @@ elements are not supported.
             return false;
           } else {
             return true;
+          }
+        },
+        hideOverlayChanged: function(hideOverlay) {
+
+          var tapEvent = ('ontouchstart' in window) ? 'tap' : 'click';
+          if(hideOverlay === true) {
+
+            document.addEventListener(tapEvent, this._onCaptureClick.bind(this), true);
+          } else {
+
+            document.removeEventListener(tapEvent, this._onCaptureClick.bind(this));
+          }
+        },
+        /**
+         * called whenever a click happens
+         * @param {!Event} evt
+         * @private
+         */
+        _onCaptureClick: function(evt) {
+
+          //We're only interested in clicks:
+          // - we're currently open
+          // - overlay hidden
+          if(this.hideOverlay &&
+             this._isShowing) {
+
+            this.hide();
           }
         }
     });

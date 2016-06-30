@@ -38,22 +38,22 @@ $popover-border-color: $gray4;
 $popover-text-color: $black;
 $popover-shadow-color: rgba($black,0.15);
 
-:host {
-  opacity: 0;
-  visibility: hidden;
-  transition: visibility 0s .10s, opacity .10s ease-out;
-
-  &.fadeFromHidden{
-    transition: opacity .10s ease-out;
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
 #popoverWrapper{
   position: absolute;
   z-index: 1005;
-  margin: $margin;
+  margin: $margin;  
+}
+
+.fadeFromVisible {
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0s .10s, opacity .10s ease-out;
+}
+
+.fadeFromHidden{
+  transition: opacity .10s ease-out;
+  opacity: 1;
+  visibility: visible;
 }
 
 #popover {
