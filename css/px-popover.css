@@ -621,7 +621,7 @@ a {
 #popover {
   outline: none;
   padding: 15px;
-  width: 284px;
+  max-width: 284px;
   border: 1px solid #d1d0d8;
   background-color: white;
   margin: 7px;

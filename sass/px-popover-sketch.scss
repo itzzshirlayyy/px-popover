@@ -41,7 +41,7 @@ $popover-shadow-color: rgba($black,0.15);
 #popoverWrapper{
   position: absolute;
   z-index: 1005;
-  margin: $margin;  
+  margin: $margin;
 }
 
 .fadeFromVisible {
@@ -59,7 +59,7 @@ $popover-shadow-color: rgba($black,0.15);
 #popover {
     outline: none;
     padding: 15px;
-    width: 284px;
+    max-width: 284px;
     border: 1px solid $popover-border-color;
     background-color: $popover-color;
     margin: $carat;

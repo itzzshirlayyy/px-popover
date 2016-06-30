@@ -1,3 +1,7 @@
+v1.4.1
+=================
+* Changed 248px width to be max-width
+
 v1.4.0
 =================
 * Fix for shadow dom support. Made show() and hide() public. Added hideOverlay property
