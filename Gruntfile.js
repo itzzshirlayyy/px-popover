@@ -24,7 +24,8 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'css/noprefix/px-popover-sketch.css': 'sass/px-popover-sketch.scss',
-                    'css/noprefix/px-popover.css': 'sass/px-popover-predix.scss'
+                    'css/noprefix/px-popover.css': 'sass/px-popover-predix.scss',
+                    'css/noprefix/px-popover-demo.css': 'sass/px-popover-demo.scss'
                 }
             }
         },
