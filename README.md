@@ -1,5 +1,7 @@
 # Px-Popover [![Build Status](https://travis-ci.org/PredixDev/px-popover.svg?branch=master)](https://travis-ci.org/PredixDev/px-popover)
 
+<p style="text-align:center;">[![px-app-nav demo](px-popover.png?raw=true)](https://github.com/PredixDev/px-popover)</p>
+
 ## Overview
 
 The px-popover is a Predix UI component for displaying additional information to a user.
