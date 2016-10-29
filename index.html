@@ -72,6 +72,11 @@
                     </px-dropdown-content>
                   </px-dropdown>
                 </div>
+                <div class="flex u-mb-">
+                  <input id="enhanced{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.enhanced::change}}">
+                  <label for$="enhanced{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                  <div class="u-ml-"> Enhanced </div>
+                </div>
               </div>
 
               <div class="demoContainer u-mt+">
@@ -86,7 +91,14 @@
                         orientation="[[item.orientation]]"
                         popover-title="[[item.popoverTitle]]"
                         popover-body="[[item.popoverBody]]"
-                        position="[[item.position]]">
+                        position="[[item.position]]"
+                        enhanced="[[item.enhanced]]">
+                        <div>
+                          This is a form
+                          <form>
+                            <input class="enhanced-text-input" type="text" value={{enhancedTextValue::input}}>
+                          </form>
+                        </div>
                     </px-popover>
                   </div>
                 </div>
@@ -147,28 +159,32 @@ window.addEventListener('WebComponentsReady', function() {
           "orientation": "left",
           "popoverTitle": "this is a left popover title",
           "popoverBody": "this is a Left popover Body",
-          "position": "relative"
+          "position": "relative",
+          "enhanced": false
         },
         {
           "for":"btn2",
           "orientation": "right",
           "popoverTitle": "this is a Right popover title",
           "popoverBody": "this is a Right popover Body",
-          "position": "relative"
+          "position": "relative",
+          "enhanced": false
         },
         {
           "for":"btn3",
           "orientation": "top",
           "popoverTitle": "this is a Top popover title",
           "popoverBody": "this is a Top popover Body",
-          "position": "relative"
+          "position": "relative",
+          "enhanced": false
         },
         {
           "for":"btn4",
           "orientation": "bottom",
           "popoverTitle": "this is a Bottom popover title",
           "popoverBody": "this is a Bottom popover Body",
-          "position": "relative"
+          "position": "relative",
+          "enhanced": true
         }
       ],
       indexPlusOne = function(num) {
@@ -182,7 +198,6 @@ window.addEventListener('WebComponentsReady', function() {
   template.indexPlusOne = indexPlusOne;
   template.items = items;
   template.year = year.getFullYear();
-
 });
 </script>
 
