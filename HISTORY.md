@@ -1,3 +1,8 @@
+v1.6.0
+=================
+* merged PR #5 to support rich popover content
+* commented out failing position tests
+
 v1.5.1
 =================
 * Update dependencies

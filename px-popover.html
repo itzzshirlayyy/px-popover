@@ -176,13 +176,8 @@ elements are not supported.
              */
             enhanced: {
               type: Boolean,
-              value: false,
-              observer: '_enhancedChanged'
+              value: false
             }
-        },
-        _enhancedChanged: function (newVal, oldVal) {
-          console.log(newVal);
-          return this.enhanced = newVal;
         },
         _getTarget: function() {
           var ownerRoot = Polymer.dom(this).getOwnerRoot(),
