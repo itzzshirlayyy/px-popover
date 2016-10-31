@@ -151,28 +151,24 @@ elements are not supported.
               observer: 'hideOverlayChanged'
             },
             /**
-             * Enhanced empowers the developer to fully control the inner html of the popover. For instance, the popover can be used to i.e. render a form or contain a user initiated edu/info video.
+             * Enhanced empowers the developer to fully control the inner html of the popover. For instance, the popover can be used to render a form or contain an embedded video.
              *
-             * To inject your custom inner html, simply include your custom markup as the first child of the px-popover when declaring the px-popover in your application. Sample provideed below.
+             * To inject your custom inner html, simply include your custom markup as the first child of the px-popover when declaring the px-popover in your application. Sample provided below.
              *
              *
                <px-popover
-                   for="[[item.for]]"
-                   orientation="[[item.orientation]]"
-                   popover-title="[[item.popoverTitle]]"
-                   popover-body="[[item.popoverBody]]"
-                   position="[[item.position]]"
-                   enhanced="[[item.enhanced]]">
+                   for="someElement"
+                   orientation="bottom"
+                   position="absolute"
+                   enhanced="true">
 
-                   //This first child element represents the customized markup that will render in the popover when enhanced is set to true. The value bindng in this example leverages Polymer, but is not Polymer dependent. It could just as easily leverage angular or raw Javascript.
-                   <template is="dom-if" if="{{item.enhanced}}">
+                   //This first child element represents the customized markup that will render in the popover when enhanced is set to true.
                      <div>
                        This is a form
                        <form>
                          <input class="enhanced-text-input" type="text" value={{enhancedTextValue::input}}>
                        </form>
                      </div>
-                   </template>
                </px-popover>
              *
              *
