@@ -162,7 +162,8 @@ window.addEventListener('WebComponentsReady', function() {
           "popoverTitle": "this is a right popover title",
           "popoverBody": "this is a right popover body",
           "position": "relative",
-          "enhanced": false
+          "enhanced": false,
+          "siblingElement": '<button class="btn btn--tertiary" id="btn1" type="button" name="button">Click here</button>'
         },
         {
           "for":"btn2",
@@ -170,7 +171,8 @@ window.addEventListener('WebComponentsReady', function() {
           "popoverTitle": "this is a bottom popover title",
           "popoverBody": "this is a bottom popover body",
           "position": "relative",
-          "enhanced": false
+          "enhanced": false,
+          "siblingElement": '<button class="btn btn--tertiary" id="btn2" type="button" name="button">Click here</button>'
         },
         {
           "for":"btn3",
@@ -178,7 +180,9 @@ window.addEventListener('WebComponentsReady', function() {
           "popoverTitle": "",
           "popoverBody": "",
           "position": "relative",
-          "enhanced": true
+          "enhanced": true,
+          "siblingElement": '<button class="btn btn--tertiary" id="btn3" type="button" name="button">Click here</button>',
+          "lightDomContent": '<div>This is a form<form><input class="enhanced-text-input" type="text" value="Input"></form></div>'
         }
       ],
       indexPlusOne = function(num) {

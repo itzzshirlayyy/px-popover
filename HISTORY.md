@@ -1,3 +1,7 @@
+v1.6.1
+=================
+* fixed codepen
+
 v1.6.0
 =================
 * merged PR #5 to support rich popover content
