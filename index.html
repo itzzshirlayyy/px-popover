@@ -93,12 +93,14 @@
                         popover-body="[[item.popoverBody]]"
                         position="[[item.position]]"
                         enhanced="[[item.enhanced]]">
-                        <div>
-                          This is a form
-                          <form>
-                            <input class="enhanced-text-input" type="text" value={{enhancedTextValue::input}}>
-                          </form>
-                        </div>
+                        <template is="dom-if" if="{{item.enhanced}}">
+                          <div>
+                            This is a form
+                            <form>
+                              <input class="enhanced-text-input" type="text" value={{enhancedTextValue::input}}>
+                            </form>
+                          </div>
+                        </template>
                     </px-popover>
                   </div>
                 </div>

@@ -165,12 +165,14 @@ elements are not supported.
                    enhanced="[[item.enhanced]]">
 
                    //This first child element represents the customized markup that will render in the popover when enhanced is set to true. The value bindng in this example leverages Polymer, but is not Polymer dependent. It could just as easily leverage angular or raw Javascript.
-                   <div>
-                     This is a form
-                     <form>
-                       <input class="enhanced-text-input" type="text" value={{enhancedTextValue::input}}>
-                     </form>
-                   </div>
+                   <template is="dom-if" if="{{item.enhanced}}">
+                     <div>
+                       This is a form
+                       <form>
+                         <input class="enhanced-text-input" type="text" value={{enhancedTextValue::input}}>
+                       </form>
+                     </div>
+                   </template>
                </px-popover>
              *
              *
