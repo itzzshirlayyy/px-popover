@@ -1,3 +1,7 @@
+v1.6.2
+=================
+* added style variables for theming
+
 v1.6.1
 =================
 * fixed codepen

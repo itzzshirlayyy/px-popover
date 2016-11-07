@@ -33,9 +33,9 @@ Predix branding rules go in px-popover-predix.scss, not in this file.
 
 $margin: 5px;
 $carat: 7px;
-$popover-color: $white;
-$popover-border-color: $gray4;
-$popover-text-color: $black;
+$popover-color: var(--px-popover-background-color, $white);
+$popover-border-color: var(--px-popover-border-color, $gray4);
+$popover-text-color: var(--px-popover-text-color, $black);
 $popover-shadow-color: rgba($black,0.15);
 
 #popoverWrapper{
