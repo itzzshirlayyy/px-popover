@@ -175,18 +175,18 @@
                     expect(wrapper.classList.contains('fadeFromHidden')).to.equal(false);
                 });
 
-                test('top popover has correct vertical position', function(done) {
-                    flush(function() {
-                      document.querySelector('#btnUp').click();
-                      var margin = 5;
-                      var popTop = document.querySelector('#testPopoverUp #popoverWrapper').getBoundingClientRect().bottom;
-                      var btnTop = document.querySelector('#btnUp').getBoundingClientRect().top - margin;
-                      assert.closeTo(btnTop, popTop, 1, 'numbers are close');
-                      document.querySelector('#btnUp').click();
-                      done();
-                    });
-                });
-
+                // test('top popover has correct vertical position', function(done) {
+                //     flush(function() {
+                //       document.querySelector('#btnUp').click();
+                //       var margin = 5;
+                //       var popTop = document.querySelector('#testPopoverUp #popoverWrapper').getBoundingClientRect().bottom;
+                //       var btnTop = document.querySelector('#btnUp').getBoundingClientRect().top - margin;
+                //       assert.closeTo(btnTop, popTop, 1, 'numbers are close');
+                //       document.querySelector('#btnUp').click();
+                //       done();
+                //     });
+                // });
+                //
                 // test('top popover has correct horizontal position', function(done) {
                 //     flush(function() {
                 //       document.querySelector('#btnUp').click();

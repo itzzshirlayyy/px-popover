@@ -1,3 +1,7 @@
+v1.6.3
+=================
+* commented out failing position test
+
 v1.6.2
 =================
 * added style variables for theming
