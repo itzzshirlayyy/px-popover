@@ -1,3 +1,7 @@
+v1.6.4
+=================
+* rebuild css
+
 v1.6.3
 =================
 * commented out failing position test
