@@ -1,13 +1,13 @@
 {
     "name": "px-popover",
-    "version": "1.6.5",
+    "version": "1.6.6",
     "main": [
         "px-popover.html"
     ],
     "ignore": [
         ".*",
         "npm-debug.log",
-        "Gruntfile.js",
+        "gulpfile.js",
         "sass",
         "bower_components",
         "node_modules",
