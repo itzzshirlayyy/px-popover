@@ -47,6 +47,7 @@ Custom property | Description | Default
 `--px-popover-background-color` | Background color for the popover | `$white`
 `--px-popover-border-color` | Border color for the popover | `$gray4`
 `--px-popover-text-color` | Color for the text | `$black`
+`--px-popover-max-width` | Maximum width of the popover | `284px`
 
 @element px-popover
 @blurb Element providing popover interactions to the applicaiton developers.
@@ -59,7 +60,7 @@ Custom property | Description | Default
 <dom-module id="px-popover">
     <template>
       <style include="px-popover-styles"></style>
-      
+
       <template is="dom-if" if="{{!hideOverlay}}">
         <px-overlay type="light" class="fadeFromVisible"></px-overlay>
       </template>

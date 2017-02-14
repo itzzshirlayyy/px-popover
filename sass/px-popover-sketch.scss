@@ -59,7 +59,7 @@ $popover-shadow-color: rgba($black,0.15);
 #popover {
     outline: none;
     padding: 15px;
-    max-width: 284px;
+    max-width: var(--px-popover-max-width, 284px);
     border: 1px solid $popover-border-color;
     background-color: $popover-color;
     margin: $carat;

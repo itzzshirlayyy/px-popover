@@ -1,3 +1,7 @@
+v1.7.4
+==================
+* exposed max width as style variable
+
 v1.7.3
 ==================
 * Updating so px-demo-snippet and px-api-viewer get new grays
