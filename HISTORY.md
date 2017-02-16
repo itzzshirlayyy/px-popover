@@ -1,3 +1,7 @@
+v1.7.5
+==================
+* updated to px-demo
+
 v1.7.4
 ==================
 * exposed max width as style variable
