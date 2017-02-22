@@ -1,3 +1,7 @@
+v1.7.6
+==================
+* fixed word-wrap per #7
+
 v1.7.5
 ==================
 * updated to px-demo
