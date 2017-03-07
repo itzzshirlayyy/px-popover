@@ -65,7 +65,7 @@ Custom property | Description | Default
         <px-overlay type="light" class="fadeFromVisible"></px-overlay>
       </template>
       <div id="popoverWrapper" class="fadeFromVisible">
-          <div id="carat"></div>
+          <div id="carat" class$="{{orientation}}"></div>
           <div id="popover">
             <template is="dom-if" if="{{!enhanced}}">
               <p class="weight--semibold">{{popoverTitle}}</p>
@@ -86,17 +86,6 @@ Custom property | Description | Default
         behaviors: [
             Polymer.IronResizableBehavior
         ],
-        /**
-         * Private Properties, used in internal view logic.
-         */
-        _values: { // attribute values
-            TYPE: {
-                top: 'top',
-                bottom: 'bottom',
-                left: 'left',
-                right: 'right'
-            }
-        },
         _isShowing: false,
         /**
          * Properties block, expose attribute values to the DOM via 'reflect'
@@ -117,7 +106,6 @@ Custom property | Description | Default
             /**
              * The direction that the popover is displayed relative to the
              * 'for' element.
-             * - 'auto' calculated at render time or resize
              * - 'left' to the left of the 'for' element
              * - 'right' to the right of the 'for' element
              * - 'top' above the 'for' element
@@ -126,7 +114,7 @@ Custom property | Description | Default
             orientation: {
                 type: String,
                 reflect: true,
-                value: 'auto'
+                value: 'right'
             },
             /**
              * The title that will be displayed in the popover.
@@ -347,35 +335,26 @@ Custom property | Description | Default
             this.thisRect = this.$.popoverWrapper.getBoundingClientRect();
             this.margin = parseInt(getComputedStyle(this.$.popoverWrapper).marginTop);
 
-            if(this.orientation === this._values.TYPE.left) {
+            if(this.orientation === 'left') {
                 this._positionLeft();
-            } else if (this.orientation === this._values.TYPE.right) {
+            } else if (this.orientation === 'right') {
                 this._positionRight();
-            } else if (this.orientation === this._values.TYPE.top) {
+            } else if (this.orientation === 'top') {
                 this._positionTop();
-            } else if (this.orientation === this._values.TYPE.bottom) {
+            } else if (this.orientation === 'bottom') {
                 this._positionBottom();
-            } else { // auto
-                this._autoPositon();
+            } else {
+                this._positionRight();
             }
 
         },
-        /**
-         * Sets the auto position to right.
-         *
-         * @method _autoPositon
-         */
-        _autoPositon: function () {
-            this._positionRight();
-        },
+
         /**
          * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
          *
          * @method _positionTop
          */
         _positionTop: function () {
-            // add the style to the carat
-            this.$.carat.classList.add(this._values.TYPE.top);
             // position the popover itself
             if(this.inRelativeElement()){
               var xCoord = this.targetRect.width/2 - this.thisRect.width/2 - this.margin;
@@ -398,9 +377,6 @@ Custom property | Description | Default
          * @method _positionBottom
          */
         _positionBottom: function () {
-            // add the style to the carat
-            //
-            this.$.carat.classList.add(this._values.TYPE.bottom);
             this.caratRect = this.$.carat.getBoundingClientRect();
 
             // position the popover itself
@@ -423,8 +399,6 @@ Custom property | Description | Default
          * @method _positionLeft
          */
         _positionLeft: function () {
-            // add the style to the carat
-            this.$.carat.classList.add(this._values.TYPE.left);
             this.caratRect = this.$.carat.getBoundingClientRect();
 
             // position the popover itself
@@ -448,7 +422,6 @@ Custom property | Description | Default
          * @method _positionRight
          */
         _positionRight: function () {
-            this.$.carat.classList.add(this._values.TYPE.right);
             this.caratRect = this.$.carat.getBoundingClientRect();
 
             if(this.inRelativeElement()){
@@ -463,7 +436,7 @@ Custom property | Description | Default
 
             // move the carat to the correct position
             this.$.carat.style.top = this.thisRect.height/2 - this.margin + 'px';
-            this.$.carat.style.left = '2px';
+            this.$.carat.style.left = '3px';
         },
         inRelativeElement: function(){
           if(this.position !== "relative"){

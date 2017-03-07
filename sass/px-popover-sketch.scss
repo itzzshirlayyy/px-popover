@@ -83,8 +83,7 @@ div#carat {
         border-color: transparent transparent $popover-border-color $popover-border-color ;
         transform-origin: 50% 50%;
         transform: rotate(-45deg);
-        box-shadow: 0px -2px 0px $popover-color,
-                    2px 0px 0px $popover-color,
+        box-shadow: 1px 0px 0px $popover-color,
                     -1px 1px 1px $popover-shadow-color;
     }
     &.bottom {
@@ -98,17 +97,15 @@ div#carat {
         border-color: $popover-border-color $popover-border-color transparent transparent;
         transform-origin: 50% 50%;
         transform: rotate(45deg);
-        box-shadow: 0px 2px 0px $popover-color,
-                    -2px 1px 0px $popover-color,
+        box-shadow: -1px 1px 0px $popover-color,
                     1px 0px 1px $popover-shadow-color;
     }
-    &.right {
+    &.right, &.auto {
         border: 1px solid transparent;
         border-color: $popover-border-color transparent transparent  $popover-border-color;
         transform-origin: 50% 50%;
         transform: rotate(-45deg);
-        box-shadow: 0px 2px 0px $popover-color,
-                    2px 1px 0px $popover-color,
+        box-shadow: 1px 1px 0px $popover-color,
                     -1px 0px 1px $popover-shadow-color;
     }
 }
