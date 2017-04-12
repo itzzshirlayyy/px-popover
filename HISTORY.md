@@ -1,3 +1,7 @@
+v1.7.8
+==================
+* fixes #8 and #9
+
 v1.7.7
 ==================
 * updated demo per design feedback, removed erroneous "auto" orientation

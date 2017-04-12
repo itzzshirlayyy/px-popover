@@ -447,30 +447,38 @@ Custom property | Description | Default
         },
         hideOverlayChanged: function(hideOverlay) {
 
-          var tapEvent = ('ontouchstart' in window) ? 'tap' : 'click';
           if(hideOverlay === true) {
-
-            document.addEventListener(tapEvent, this._onCaptureClick.bind(this), true);
+            document.addEventListener('touchend', this._onCaptureClick.bind(this), true);
+            document.addEventListener('click', this._onCaptureClick.bind(this), true);
           } else {
-
-            document.removeEventListener(tapEvent, this._onCaptureClick.bind(this));
+            document.removeEventListener('touchend', this._onCaptureClick.bind(this));
+            document.removeEventListener('click', this._onCaptureClick.bind(this));
           }
         },
         /**
-         * called whenever a click happens
-         * @param {!Event} evt
-         * @private
+         * Called whenever a click happens if the overlay is hidden.
+         * If the overlay is open and the click came from outside of
+         * the popover, we hide it.
          */
         _onCaptureClick: function(evt) {
-
-          //We're only interested in clicks:
-          // - we're currently open
-          // - overlay hidden
-          if(this.hideOverlay &&
-             this._isShowing) {
-
-            this.hide();
+          if(this._isShowing) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            var path = Polymer.dom(evt).path,
+                length = path.length,
+                isPopover = false,
+                i;
+            for(i=0; i<length; i++) {
+              if(path[i].id === 'popover') {
+                isPopover = true;
+                break;
+              }
+            }
+            if(!isPopover) {
+              this.hide();
+            }
           }
+
         }
     });
 </script>
