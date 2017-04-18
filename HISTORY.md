@@ -1,3 +1,7 @@
+v1.7.9
+==================
+* removed click event capturing to permit links inside popovers
+
 v1.7.8
 ==================
 * fixes #8 and #9

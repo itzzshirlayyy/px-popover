@@ -462,8 +462,6 @@ Custom property | Description | Default
          */
         _onCaptureClick: function(evt) {
           if(this._isShowing) {
-            evt.stopPropagation();
-            evt.preventDefault();
             var path = Polymer.dom(evt).path,
                 length = path.length,
                 isPopover = false,
