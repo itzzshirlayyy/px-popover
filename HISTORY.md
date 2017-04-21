@@ -1,3 +1,7 @@
+v2.0.0
+==================
+* component redesign
+
 v1.7.9
 ==================
 * removed click event capturing to permit links inside popovers

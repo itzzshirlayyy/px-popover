@@ -8,19 +8,7 @@
  * under which the software has been supplied.
  */
 
-//
-// Sass for the "sketch" notion of the px-popover component
-//
-// @author
-//
-
-/*
-THIS FILE SHOULD CONTAIN ONLY ABSTRACT/'SKETCH' THEME RULES, NOT SPECIFIC TO PREDIX BRANDING
-Predix branding rules go in px-popover-predix.scss, not in this file.
-*/
-
 // Settings
-@import "px-colors-design/_settings.colors.scss";
 
 // Generic
 @import "px-normalize-design/_generic.normalize.scss";
@@ -30,18 +18,18 @@ Predix branding rules go in px-popover-predix.scss, not in this file.
 // Base
 @import "px-flexbox-design/_base.flexbox.scss";
 @import "px-viewport-design/_base.viewport.scss";
+@import "px-headings-design/_base.headings.scss";
 
-$margin: 5px;
-$carat: 7px;
-$popover-color: var(--px-popover-background-color, $white);
-$popover-border-color: var(--px-popover-border-color, $gray4);
-$popover-text-color: var(--px-popover-text-color, $black);
-$popover-shadow-color: rgba($black,0.15);
+$popover-background-color: var(--px-popover-background-color, white);
+$popover-border-color: var(--px-popover-border-color, black);
+$popover-text-color: var(--px-popover-text-color, black);
+$popover-shadow-color: var(--px-popover-shadow-color, black);
+$popover-max-width: var(--px-popover-max-width, 300px);
 
 #popoverWrapper{
   position: absolute;
   z-index: 1005;
-  margin: $margin;
+  margin: 5px;
 }
 
 .fadeFromVisible {
@@ -55,21 +43,21 @@ $popover-shadow-color: rgba($black,0.15);
   opacity: 1;
   visibility: visible;
 }
-
 #popover {
     outline: none;
-    padding: 15px;
-    max-width: var(--px-popover-max-width, 284px);
+    padding: 20px;
+    max-width: $popover-max-width;
     border: 1px solid $popover-border-color;
-    background-color: $popover-color;
-    margin: $carat;
+    background-color: $popover-background-color;
+    margin: 7px;
     color: $popover-text-color;
-    box-shadow: 0px 1px 1px $popover-shadow-color;
-    h6 {
-        margin: 0;
+    box-shadow: 0px 1px 3px 0px $popover-shadow-color;
+    h5 {
+        margin: 0px 0px 20px 0px;
     }
     p {
         margin: 0;
+        word-wrap: break-word;
     }
 }
 
@@ -77,13 +65,13 @@ div#carat {
     position: absolute;
     width: 9.899px; //sqrt(7*7 + 7*7)
     height: 9.899px;
-    background-color: $popover-color;
+    background-color: $popover-background-color;
     &.top {
         border: 1px solid transparent;
         border-color: transparent transparent $popover-border-color $popover-border-color ;
         transform-origin: 50% 50%;
         transform: rotate(-45deg);
-        box-shadow: 1px 0px 0px $popover-color,
+        box-shadow: 1px 0px 0px $popover-background-color,
                     -1px 1px 1px $popover-shadow-color;
     }
     &.bottom {
@@ -97,7 +85,7 @@ div#carat {
         border-color: $popover-border-color $popover-border-color transparent transparent;
         transform-origin: 50% 50%;
         transform: rotate(45deg);
-        box-shadow: -1px 1px 0px $popover-color,
+        box-shadow: -1px 1px 0px $popover-background-color,
                     1px 0px 1px $popover-shadow-color;
     }
     &.right, &.auto {
@@ -105,23 +93,23 @@ div#carat {
         border-color: $popover-border-color transparent transparent  $popover-border-color;
         transform-origin: 50% 50%;
         transform: rotate(-45deg);
-        box-shadow: 1px 1px 0px $popover-color,
+        box-shadow: 1px 1px 0px $popover-background-color,
                     -1px 0px 1px $popover-shadow-color;
     }
 }
 
-// Mozilla has a rendering issue drawing a thin line around the carat when the drop shadowdespite the overlapping
+// Mozilla has a rendering issue drawing a thin line around the carat when the drop shadow despite the overlapping
 @-moz-document url-prefix() {
   div#carat {
     &.top {
       box-shadow: -1px 1px 0px $popover-shadow-color;
     }
     &.left{
-      box-shadow: 0px 2px 0px $popover-color,
+      box-shadow: 0px 2px 0px $popover-background-color,
                   1px 0px 0px $popover-shadow-color;
     }
     &.right{
-      box-shadow: 0px 2px 0px $popover-color,
+      box-shadow: 0px 2px 0px $popover-background-color,
                   -1px 0px 0px $popover-shadow-color;
     }
   }

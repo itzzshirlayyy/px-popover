@@ -10,6 +10,7 @@
 <link rel="import" href="../../px-demo/px-demo-props.html" />
 <link rel="import" href="../../px-demo/px-demo-interactive.html" />
 <link rel="import" href="../../px-demo/px-demo-component-snippet.html" />
+<link rel="import" href="../../px-demo/px-demo-code-editor.html" />
 
 <!-- Imports for this componnent -->
 <link rel="import" href="../../px-demo/css/px-demo-styles.html" />
@@ -23,7 +24,7 @@
     <!-- Header -->
     <px-demo-header
         module-name="px-popover"
-        description="The Popover is similar to a Tooltip, but is usually invoked by clicking on a target component (though hover and focus are also supported). Popovers have an optional title, and can also contain richer content than a basic tooltip – longer or formatted text, labels, badges, etc. Popovers stay visible on screen until the user clicks outside of the tooltip or clicks a second time on the invoking component.">
+        description="The popover is similar to a tooltip, but is invoked by clicking instead of hovering on a target component. Popovers have an optional title, and can also contain richer content than a basic tooltip – longer or formatted text, labels, badges, etc. Popovers stay visible on screen until the user clicks outside of the popover.">
     </px-demo-header>
 
     <!-- Interactive -->
@@ -34,6 +35,9 @@
       <!-- Props -->
       <px-demo-props props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
 
+      <!-- Code Editor -->
+      <px-demo-code-editor props="{{props}}"></px-demo-code-editor>
+
       <!-- Component ---------------------------------------------------------->
       <px-demo-component>
         <div>
@@ -43,7 +47,7 @@
               popover-title="{{props.popoverTitle.value}}"
               popover-body="{{props.popoverBody.value}}"
               orientation="{{props.orientation.value}}"
-              position="{{props.position.value}}"
+              position="absolute"
               enhanced="{{props.enhanced.value}}"
               hide-overlay="{{props.hideOverlay.value}}">
               <template is="dom-if" if="{{props.enhanced.value}}">
@@ -61,7 +65,7 @@
     </px-demo-interactive>
 
     <!-- API Viewer -->
-    <px-demo-api-viewer source="px-popover"></px-demo-api-viewer>
+    <px-demo-api-viewer source="px-popover" hide='["assignParentResizable","getTargetPositionCenterOfLeftRight","getTargetPositionCenterOfTopBottom","notifyResize","resizerShouldNotify","stopResizeNotificationsFor"]'></px-demo-api-viewer>
 
     <!-- Footer -->
     <px-demo-footer></px-demo-footer>
@@ -91,7 +95,7 @@
               for: "btn1",
               orientation: "bottom",
               position: "absolute",
-              popoverTitle: "This is a bottom popover title",
+              popoverTitle: "This is a bottom popover",
               popoverBody: "This is a bottom popover body",
               enhanced: false,
               hideOverlay: false,
@@ -105,15 +109,11 @@
               popoverBody: "",
               enhanced: true,
               hideOverlay: true,
-              lightDomContent: "<div>This is a form<form><input class='text-input' type='text' value='Input'></form></div>",
+              lightDomContent: "<form><label>This is a form<input class='text-input' type='text' value='Text Input'/></label></form>",
               siblingElement: "<button class='btn btn--tertiary' id='btn1' type='button' name='button'>Click here</button>" }
           ]
         }
       }
-    },
-
-    calcStyle: function(position) {
-      return position === "relative" ? "position:relative;" : "";
     },
 
     /**
@@ -139,18 +139,9 @@
         inputChoices: ['left', 'right', 'top', 'bottom']
       },
 
-      position: {
-        type: String,
-        defaultValue: 'absolute',
-        inputType: 'dropdown',
-        inputChoices: ['relative', 'absolute']
-      },
-
       for: {
         type: String,
-        defaultValue: 'btn1',
-        inputType: 'text',
-        inputPlaceholder: 'id of invoking element'
+        defaultValue: 'btn1'
       },
 
       popoverTitle: {
@@ -172,7 +163,8 @@
 
       lightDomContent: {
         type: String,
-        defaultValue: ""
+        defaultValue: "<form><label>This is a form<input class='text-input' type='text' value='Text Input'/></label></form>",
+        inputType: 'code:JSON'
       }
     }
 

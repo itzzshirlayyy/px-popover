@@ -1,10 +1,3 @@
-
-<!--
-    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
-    siblings. When this component is run from its own repo (e.g. ui tests, examples), we assume the server is started with
-    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs
-    See https://github.com/jreichenberg/grunt-dep-serve#why-do-we-need-this
--->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../px-overlay/px-overlay.html" />
@@ -14,43 +7,44 @@
 Element providing popovers.
 
 Simply place the the px-popover next to the element that you want it to attach to.
-Set the 'for' attribute to the 'id' of the element that it's associated with. Then Set
-the 'popover-title' and 'popover-body' attributes. The popover will automatically grow
-to encapsulate the contents that you have established. The 'interaction' attribute specifies
-the event that the popover is bound to, currently the popover supports 'click'.
+Set the 'for' attribute to the 'id' of the element that it's associated with. Then set
+the 'popover-title' and 'popover-body' properties, and/or set `enhanced` and pass HTML
+content as a child of the px-popover. The popover will automatically grow
+to encapsulate the contents that you have established.
 
-NOTE: currently the popover must be a sibling of the associated element, both should
-contained within a 'static' element such as a DIV. If in a relative positioned ancestor, wrap the target and popover in another relative positioned element. Absolute positioned parent
-elements are not supported.
+NOTE: Currently the popover must be a sibling of the associated trigger element, and both should
+be contained within a 'static' positioned element such as a DIV. If in a relative positioned ancestor,
+wrap the trigger and popover in another relative positioned element and set the `position`
+property to `relative`. Absolute positioned parent elements are not supported.
 
 ##### Usage
 
-    <div class="static-parent">
+    <div id="someElement">Some element</div>
+    <px-popover for="someElement" orientation="bottom" popover-title="Bottom Popover" popover-body="Lorem ipsum"></px-popover>
+
+    // If in a relative position ancestor:
+    <div style="position:relative;">
         <div id="someElement">Some element</div>
-        <px-popover for="someElement" orientation="bottom" popover-title="Bottom Popover" popover-body="Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod."></px-popover>
+        <px-popover for="someElement" position="relative" popover-title="Bottom Popover" popover-body="Lorem ipsum"></px-popover>
     </div>
 
-    //If in a relative position ancestor:
-    <div class="static-parent" style="position:relative;">
-        <div style="position:relative;">
-            <div id="someElement">Some element</div>
-            <px-popover for="someElement" orientation="bottom" popover-title="Bottom Popover" popover-body="Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod."></px-popover
-            position="relative" >
-        </div>
-    </div>
+    // Passing rich HTML content:
+    <div id="someElement">Some element</div>
+    <px-popover for="someElement" orientation="bottom" enhanced>
+      <form><label>This is a form<input class='text-input' type='text' value='Input'/></label></form>
+    </px-popover>
 
 ### Styling
 The following custom properties are available for styling:
 
-Custom property | Description | Default
-----------------|-------------|----------
-`--px-popover-background-color` | Background color for the popover | `$white`
-`--px-popover-border-color` | Border color for the popover | `$gray4`
-`--px-popover-text-color` | Color for the text | `$black`
-`--px-popover-max-width` | Maximum width of the popover | `284px`
+Custom property | Description
+:----------------|:-------------
+`--px-popover-background-color` | Background color for the popover
+`--px-popover-border-color` | Border color for the popover
+`--px-popover-text-color` | Color for the text
+`--px-popover-max-width` | Maximum width of the popover
 
 @element px-popover
-@blurb Element providing popover interactions to the applicaiton developers.
 @homepage index.html
 @demo demo.html
 -->
@@ -67,8 +61,10 @@ Custom property | Description | Default
       <div id="popoverWrapper" class="fadeFromVisible">
           <div id="carat" class$="{{orientation}}"></div>
           <div id="popover">
-            <template is="dom-if" if="{{!enhanced}}">
-              <p class="weight--semibold">{{popoverTitle}}</p>
+            <template is="dom-if" if="{{popoverTitle}}">
+              <h5 class="epsilon">{{popoverTitle}}</h5>
+            </template>
+            <template is="dom-if" if="{{popoverBody}}">
               <p>{{popoverBody}}</p>
             </template>
             <template is="dom-if" if="{{enhanced}}">
@@ -86,13 +82,6 @@ Custom property | Description | Default
         behaviors: [
             Polymer.IronResizableBehavior
         ],
-        _isShowing: false,
-        /**
-         * Properties block, expose attribute values to the DOM via 'reflect'
-         *
-         * @property properties
-         * @type Object
-         */
         properties: {
             /**
              * The id of the element that the tooltip is anchored to. This element
@@ -122,15 +111,15 @@ Custom property | Description | Default
             popoverTitle: {
                 type: String,
                 reflect: true,
-                value: 'This is a px-popover'
+                value: ''
             },
             /**
-             * The body text that will be displayed in the popover. Note: Does not support HTML elements within the body.
+             * The body text that will be displayed in the popover. Note: Does not support HTML elements within the body. Set `enhanced` and pass HTML as a child of the px-popover instead.
              */
             popoverBody: {
                 type: String,
                 reflect: true,
-                value: 'Capable of displaying a longer body text than a tootip.'
+                value: ''
             },
             /**
              * If the target/popover are descendent of a relative position element, wrap the target and popover in another element with relative positioning and set this flag to "relative"
@@ -149,30 +138,25 @@ Custom property | Description | Default
               observer: 'hideOverlayChanged'
             },
             /**
-             * Enhanced empowers the developer to fully control the inner html of the popover. For instance, the popover can be used to render a form or contain an embedded video.
+             * Enhanced empowers the developer to fully control the inner HTML of the popover. For instance, the popover can be used to render a form or contain an embedded video.
+             * To inject your custom HTML, simply include your custom markup as the first child of the px-popover when declaring the px-popover in your application. Sample provided below.
              *
-             * To inject your custom inner html, simply include your custom markup as the first child of the px-popover when declaring the px-popover in your application. Sample provided below.
-             *
-             *
-               <px-popover
-                   for="someElement"
-                   orientation="bottom"
-                   position="absolute"
-                   enhanced="true">
-
-                   //This first child element represents the customized markup that will render in the popover when enhanced is set to true.
-                     <div>
-                       This is a form
-                       <form>
-                         <input class="enhanced-text-input" type="text" value={{enhancedTextValue::input}}>
-                       </form>
-                     </div>
-               </px-popover>
-             *
-             *
-             *
+             *     <px-popover for="someElement" enhanced>
+             *         <form>
+             *            <label>This is a form
+             *              <input type='text'/>
+             *            </label>
+             *         </form>
+             *     </px-popover>
              */
             enhanced: {
+              type: Boolean,
+              value: false
+            },
+            /**
+             * Whether the popover is currently shown.
+             */
+            _isShowing: {
               type: Boolean,
               value: false
             }
@@ -216,9 +200,7 @@ Custom property | Description | Default
           }
         },
         /**
-         * sets up listeners when popover is created
-         *
-         * @method attached
+         * Sets up listeners when popover is created
          */
         attached: function () {
           // Enable document-wide tap recognizer.
@@ -231,9 +213,7 @@ Custom property | Description | Default
           this.hideOverlayChanged(this.hideOverlay);
         },
         /**
-         * sets up listeners when popover is destroyed
-         *
-         * @method detached
+         * Removes listeners when popover is destroyed
          */
         detached: function () {
             // scroll
@@ -259,10 +239,6 @@ Custom property | Description | Default
         },
         /**
          * Determines if event should yield a change in the popover visibility and sets up vars associated with the type of show event
-         *
-         * @method _toggle
-         * @param {event}
-         * @return {Boolean}
          */
         _toggle: function (event) {
             // hide the popover if a click is coming from the outside
@@ -287,9 +263,7 @@ Custom property | Description | Default
             }
         },
         /**
-         * Display the popover
-         *
-         * @method show
+         * Displays the popover
          */
         show: function () {
             // show this thing
@@ -300,28 +274,18 @@ Custom property | Description | Default
             this.fire('px-popover-show', {
                 target: this
             });
-
-            // listen for a scroll so we can turn off the overlay/popover if the user scrolls away
-            // this.listen(window, 'scroll', 'hide');
         },
         /**
-         * Hide the popover
-         *
-         * @method hide
+         * Hides the popover
          */
         hide: function () {
             // hide this thing
             this.toggleClass('fadeFromHidden',false, this.$.popoverWrapper);
             this.toggleClass('fadeFromHidden',false, this.$$('px-overlay'));
             this._isShowing = false;
-
-            // get rid of the scroll listener
-            this.unlisten(window, 'scroll', '_toggle');
         },
         /**
          * Calculates which direction the popover should go and creates vars used in positioning the popover
-         *
-         * @method _setPosition
          */
         _setPosition: function() {
             if (!this._target) {
@@ -351,8 +315,6 @@ Custom property | Description | Default
 
         /**
          * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
-         *
-         * @method _positionTop
          */
         _positionTop: function () {
             // position the popover itself
@@ -373,8 +335,6 @@ Custom property | Description | Default
         },
         /**
          * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
-         *
-         * @method _positionBottom
          */
         _positionBottom: function () {
             this.caratRect = this.$.carat.getBoundingClientRect();
@@ -395,8 +355,6 @@ Custom property | Description | Default
         },
         /**
          * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
-         *
-         * @method _positionLeft
          */
         _positionLeft: function () {
             this.caratRect = this.$.carat.getBoundingClientRect();
@@ -418,8 +376,6 @@ Custom property | Description | Default
         },
         /**
          * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
-         *
-         * @method _positionRight
          */
         _positionRight: function () {
             this.caratRect = this.$.carat.getBoundingClientRect();
@@ -445,6 +401,9 @@ Custom property | Description | Default
             return true;
           }
         },
+        /**
+         * Adds and removes event listeners if the `hide-overlay` property is changed.
+         */
         hideOverlayChanged: function(hideOverlay) {
 
           if(hideOverlay === true) {
