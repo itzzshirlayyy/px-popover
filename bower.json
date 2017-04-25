@@ -5,6 +5,7 @@
     "px-popover.html"
   ],
   "ignore": [
+    "*.enc",
     "**/.*",
     "node_modules",
     "bower_components",
