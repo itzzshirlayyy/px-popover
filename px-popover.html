@@ -129,12 +129,12 @@ Custom property | Description
               value:"absolute"
             },
             /**
-             * Allows to hide the overlay when popover is shown
-             *
+             * By default, the overlay covering the rest of the screen is off.
+             * This property should be set to false for mobile applications.
              */
             hideOverlay: {
               type: Boolean,
-              value: false,
+              value: true,
               observer: 'hideOverlayChanged'
             },
             /**
