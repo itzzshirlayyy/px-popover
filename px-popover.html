@@ -314,6 +314,9 @@ Custom property | Description | Default
             this.toggleClass('fadeFromHidden',false, this.$.popoverWrapper);
             this.toggleClass('fadeFromHidden',false, this.$$('px-overlay'));
             this._isShowing = false;
+            this.fire('px-popover-hide', {
+                target: this
+            });
 
             // get rid of the scroll listener
             this.unlisten(window, 'scroll', '_toggle');

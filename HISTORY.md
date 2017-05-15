@@ -1,3 +1,7 @@
+v1.7.10
+==================
+* added event for hide
+
 v1.7.9
 ==================
 * removed click event capturing to permit links inside popovers
