@@ -281,6 +281,9 @@ Custom property | Description
             this.toggleClass('fadeFromHidden',false, this.$.popoverWrapper);
             this.toggleClass('fadeFromHidden',false, this.$$('px-overlay'));
             this._isShowing = false;
+            this.fire('px-popover-hide', {
+                target: this
+            });
         },
         /**
          * Calculates which direction the popover should go and creates vars used in positioning the popover

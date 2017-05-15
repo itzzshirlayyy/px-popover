@@ -1,6 +1,7 @@
-v2.0.0-prerelease
+v2.0.0
 ==================
 * component redesign
+* added event for hide
 
 v1.7.9
 ==================
