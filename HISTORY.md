@@ -2,6 +2,7 @@ v2.0.0
 ==================
 * component redesign
 * added event for hide
+* clean up sass
 
 v1.7.9
 ==================

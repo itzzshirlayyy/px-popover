@@ -11,13 +11,9 @@
 // Settings
 
 // Generic
-@import "px-normalize-design/_generic.normalize.scss";
 @import "px-box-sizing-design/_generic.box-sizing.scss";
-@import "px-helpers-design/_generic.helpers.scss";
 
 // Base
-@import "px-flexbox-design/_base.flexbox.scss";
-@import "px-viewport-design/_base.viewport.scss";
 @import "px-headings-design/_base.headings.scss";
 
 $popover-background-color: var(--px-popover-background-color, white);
@@ -26,7 +22,7 @@ $popover-text-color: var(--px-popover-text-color, black);
 $popover-shadow-color: var(--px-popover-shadow-color, black);
 $popover-max-width: var(--px-popover-max-width, 300px);
 
-#popoverWrapper{
+#popover__wrapper{
   position: absolute;
   z-index: 1005;
   margin: 5px;
@@ -61,7 +57,7 @@ $popover-max-width: var(--px-popover-max-width, 300px);
     }
 }
 
-div#carat {
+div#popover__carat {
     position: absolute;
     width: 9.899px; //sqrt(7*7 + 7*7)
     height: 9.899px;
@@ -114,6 +110,5 @@ div#carat {
     }
   }
 }
+
 // Trumps
-@import "px-spacing-responsive-design/_trumps.spacing-responsive.scss";
-@import "px-widths-responsive-design/_trumps.widths-responsive.scss";
