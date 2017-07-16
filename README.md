@@ -1,13 +1,8 @@
-# Px-Popover [![Build Status](https://travis-ci.org/PredixDev/px-popover.svg?branch=master)](https://travis-ci.org/PredixDev/px-popover)
+# px-popover [![Build Status](https://travis-ci.org/PredixDev/px-popover.svg?branch=master)](https://travis-ci.org/PredixDev/px-popover)
 
-[![px-popover demo](px-popover.png?raw=true)](https://github.com/PredixDev/px-popover)
+## Overview
 
-
-The px-popover is a Predix UI component for displaying additional information to a user.
-
-## documentation
-
-Read the full API and view the demo [here](https://predixdev.github.io/px-popover).
+Px-popover is a Predix UI component used for displaying additional information to a user. The popover is similar to a tooltip, but is invoked by clicking instead of hovering on a target component, and can also contain richer content than a basic tooltip.
 
 ## Usage
 
@@ -82,6 +77,10 @@ Popover in a Relative position ancestor
 ### Layout
 
 The popover has a fixed width but will grow vertically relative to its contents.
+
+## Documentation
+
+Read the full API and view the demo [here](https://predixdev.github.io/px-popover).
 
 ## Local Development
 
