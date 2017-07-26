@@ -2,7 +2,7 @@
 
 ## Overview
 
-Px-popover is a Predix UI component used for displaying additional information to a user. The popover is similar to a tooltip, but is invoked by clicking instead of hovering on a target component, and can also contain richer content than a basic tooltip.
+`Px-popover` is a Predix UI component used for displaying additional information to a user. The popover is similar to a tooltip, but is invoked by clicking instead of hovering on a target component, and can also contain richer content than a basic tooltip.
 
 ## Usage
 
@@ -12,17 +12,17 @@ Px-popover is a Predix UI component used for displaying additional information t
 3. bower
 4. [webcomponents-lite.js polyfill](https://github.com/webcomponents/webcomponentsjs)
 
-Node, npm and bower are necessary to install the component and dependencies. webcomponents.js adds support for web components and custom elements to your application.
+Node, npm, and bower are necessary to install the component and dependencies. webcomponents.js adds support for web components and custom elements to your application.
 
 ### Getting Started
 
-First, install the component via bower on the command line.
+First, install the component via bower on the command line:
 
 ```
 bower install px-popover --save
 ```
 
-Second, import the component to your application with the following tag in your head.
+Second, import the component in your application with the following tag in your head:
 
 ```
 <link rel="import" href="/bower_components/px-popover/px-popover.html"/>
@@ -76,7 +76,7 @@ Popover in a Relative position ancestor
 
 ### Layout
 
-The popover has a fixed width but will grow vertically relative to its contents.
+The `px-popover` component has a fixed width but will grow vertically relative to its contents.
 
 ## Documentation
 
