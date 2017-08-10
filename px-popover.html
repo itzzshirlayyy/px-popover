@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
-<link rel="import" href="../px-overlay/px-overlay.html" />
-
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html"/>
+<link rel="import" href="../px-overlay/px-overlay.html"/>
+<link rel="import" href="css/px-popover-styles.html"/>
 
 <!--
 Simply place the the px-popover next to the element that you want it to attach to.
@@ -33,6 +33,7 @@ property to `relative`. Absolute positioned parent elements are not supported.
     </px-popover>
 
 ### Styling
+
 The following custom properties are available for styling:
 
 Custom property | Description
@@ -44,11 +45,8 @@ Custom property | Description
 
 @element px-popover
 @homepage index.html
-@demo demo.html
+@demo index.html
 -->
-
-<link rel="import" href="css/px-popover-styles.html">
-
 <dom-module id="px-popover">
     <template>
       <style include="px-popover-styles"></style>
