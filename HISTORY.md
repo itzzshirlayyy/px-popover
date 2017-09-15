@@ -1,3 +1,7 @@
+v2.0.4
+==================
+* Fix popover positioning
+
 v2.0.3
 ==================
 * Fix comment for analyzer

@@ -331,8 +331,8 @@ Custom property | Description
         this.$.popover__wrapper.style.left = xCoord + 'px';
       }
       else {
-        this.$.popover__wrapper.style.left = this.targetRect.left + window.pageXOffset - this.thisRect.width/2 + this.targetRect.width/2 - this.margin + 'px';
-        this.$.popover__wrapper.style.top = this.targetRect.top + window.pageYOffset - this.thisRect.height - this.margin * 2 + 'px';
+        this.$.popover__wrapper.style.left = this.targetRect.left + window.pageXOffset - this.thisRect.width/2 + this.targetRect.width/2 - this.margin - this.parentRect.left + 'px';
+        this.$.popover__wrapper.style.top = this.targetRect.top + window.pageYOffset - this.thisRect.height - this.margin * 2 - this.parentRect.top + 'px';
       }
 
       // move the carat to the correct position
@@ -354,8 +354,8 @@ Custom property | Description
 
       }
       else {
-        this.$.popover__wrapper.style.left = this.targetRect.left + window.pageXOffset - this.thisRect.width/2 + this.targetRect.width/2 - this.margin + 'px';
-        this.$.popover__wrapper.style.top = this.targetRect.top + window.pageYOffset + this.targetRect.height - 1 + 'px';
+        this.$.popover__wrapper.style.left = this.targetRect.left + window.pageXOffset - this.thisRect.width/2 + this.targetRect.width/2 - this.margin - this.parentRect.left + 'px';
+        this.$.popover__wrapper.style.top = this.targetRect.top + window.pageYOffset + this.targetRect.height - 1 - this.parentRect.top + 'px';
       }
       // move the carat to the correct position
       this.$.popover__carat.style.left = this.thisRect.width/2 - this.margin + 'px';
@@ -375,8 +375,8 @@ Custom property | Description
         this.$.popover__wrapper.style.left = xCoord + 'px';
       }
       else {
-        this.$.popover__wrapper.style.left = this.targetRect.left + window.pageXOffset - this.thisRect.width - this.margin * 2 + 'px';
-        this.$.popover__wrapper.style.top = this.targetRect.top  + window.pageYOffset + this.targetRect.height/2  - this.thisRect.height/2 - this.margin + 'px';
+        this.$.popover__wrapper.style.left = this.targetRect.left + window.pageXOffset - this.thisRect.width - this.margin * 2 - this.parentRect.left + 'px';
+        this.$.popover__wrapper.style.top = this.targetRect.top  + window.pageYOffset + this.targetRect.height/2  - this.thisRect.height/2 - this.margin - this.parentRect.top + 'px';
       }
 
       // move the carat to the correct position
@@ -396,8 +396,8 @@ Custom property | Description
           this.$.popover__wrapper.style.left = xCoord + 'px';
         }
         else {
-          this.$.popover__wrapper.style.left = this.targetRect.left  + window.pageXOffset + this.targetRect.width + 'px';
-          this.$.popover__wrapper.style.top = this.targetRect.top  + window.pageYOffset + this.targetRect.height/2  - this.thisRect.height/2 - this.margin + 'px';
+          this.$.popover__wrapper.style.left = this.targetRect.left  + window.pageXOffset + this.targetRect.width - this.parentRect.left + 'px';
+          this.$.popover__wrapper.style.top = this.targetRect.top  + window.pageYOffset + this.targetRect.height/2  - this.thisRect.height/2 - this.margin - this.parentRect.top + 'px';
         }
 
         // move the carat to the correct position
