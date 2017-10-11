@@ -1,6 +1,10 @@
+v2.0.5
+==================
+* fix popover positioning (#16)
+
 v2.0.4
 ==================
-* Fix popover positioning
+* fix popover positioning (#15)
 
 v2.0.3
 ==================
