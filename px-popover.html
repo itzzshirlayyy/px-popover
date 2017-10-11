@@ -244,7 +244,7 @@ Custom property | Description
           return false;
         }
         else {
-          if(event.target.id === this.for) {
+          if(event.target.id === this.for || this._isDescendant(document.querySelector('#' + this.for), event.target)) {
             if(this._isShowing) {
               this.hide();
             } else {

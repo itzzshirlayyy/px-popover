@@ -1,3 +1,7 @@
+v2.0.6
+==================
+* fix to work with more complex triggers (#19)
+
 v2.0.5
 ==================
 * fix popover positioning (#16)
