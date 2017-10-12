@@ -23,7 +23,8 @@
   "dependencies": {
     "iron-resizable-behavior": "^2.0.0",
     "polymer": "^1.9.0",
-    "px-overlay": "^1.0.0"
+    "px-overlay": "^1.0.0",
+    "iron-dropdown": "^2.0.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",

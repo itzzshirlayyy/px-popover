@@ -1,35 +1,23 @@
-<link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html"/>
-<link rel="import" href="../px-overlay/px-overlay.html"/>
-<link rel="import" href="css/px-popover-styles.html"/>
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../iron-dropdown/iron-dropdown.html" />
+<link rel="import" href="css/px-popover-styles.html" />
 
 <!--
 Simply place the the px-popover next to the element that you want it to attach to.
 Set the 'for' attribute to the 'id' of the element that it's associated with. Then set
 the 'popover-title' and 'popover-body' properties, and/or set `enhanced` and pass HTML
-content as a child of the px-popover. The popover will automatically grow
-to encapsulate the contents that you have established.
-
-NOTE: Currently the popover must be a sibling of the associated trigger element, and both should
-be contained within a 'static' positioned element such as a DIV. If in a relative positioned ancestor,
-wrap the trigger and popover in another relative positioned element and set the `position`
-property to `relative`. Absolute positioned parent elements are not supported.
+content as a child of the px-popover using 'slot=content'. The popover will automatically
+grow to encapsulate the contents.
 
 ### Usage
 
     <div id="someElement">Some element</div>
     <px-popover for="someElement" orientation="bottom" popover-title="Bottom Popover" popover-body="Lorem ipsum"></px-popover>
 
-    // If in a relative position ancestor:
-    <div style="position:relative;">
-        <div id="someElement">Some element</div>
-        <px-popover for="someElement" position="relative" popover-title="Bottom Popover" popover-body="Lorem ipsum"></px-popover>
-    </div>
-
     // Passing rich HTML content:
     <div id="someElement">Some element</div>
     <px-popover for="someElement" orientation="bottom" enhanced>
-      <form><label>This is a form<input class='text-input' type='text' value='Input'/></label></form>
+      <form slot="content"><label>This is a form<input class='text-input' type='text' value='Input'/></label></form>
     </px-popover>
 
 ### Styling
@@ -48,44 +36,40 @@ Custom property | Description
 @demo index.html
 -->
 <dom-module id="px-popover">
-    <template>
-      <style include="px-popover-styles"></style>
+  <template>
+    <style include="px-popover-styles"></style>
 
-      <template is="dom-if" if="{{!hideOverlay}}">
-        <px-overlay type="light" class="fadeFromVisible"></px-overlay>
-      </template>
-      <div id="popover__wrapper" class="fadeFromVisible">
-          <div id="popover__carat" class$="{{orientation}}"></div>
-          <div id="popover">
-            <template is="dom-if" if="{{popoverTitle}}">
-              <h5 class="epsilon">{{popoverTitle}}</h5>
-            </template>
-            <template is="dom-if" if="{{popoverBody}}">
-              <p>{{popoverBody}}</p>
-            </template>
-            <template is="dom-if" if="{{enhanced}}">
-              <content></content>
-            </template>
-          </div>
+    <iron-dropdown id="dropdown" with-backdrop="{{showOverlay}}" horizontal-align="left" vertical-align="top" dynamic-align="{{dynamicAlign}}" no-cancel-on-outside-click>
+      <div slot="dropdown-content" id="popover">
+        <template is="dom-if" if="{{!dynamicAlign}}">
+        <div id="popover__carat" class$="{{orientation}}"></div>
+        </template>
+        <template is="dom-if" if="{{popoverTitle}}">
+          <h5 class="epsilon">{{popoverTitle}}</h5>
+        </template>
+        <template is="dom-if" if="{{popoverBody}}">
+          <p>{{popoverBody}}</p>
+        </template>
+        <template is="dom-if" if="{{enhanced}}">
+          <slot name="content"></slot>
+        </template>
       </div>
-    </template>
+    </iron-dropdown>
+
+  </template>
 </dom-module>
 
 <script>
   Polymer({
 
     is: 'px-popover',
-    behaviors: [
-      Polymer.IronResizableBehavior
-    ],
     properties: {
       /**
-        * The id of the element that the tooltip is anchored to. This element
-        * must be a sibling of the tooltip.
+        * The id of the element that the tooltip is anchored to.
+        * Should be a sibling of the px-popover.
         */
       for: {
         type: String,
-        reflect: true,
         observer: '_forChanged'
       },
       /**
@@ -98,15 +82,23 @@ Custom property | Description
         */
       orientation: {
         type: String,
-        reflect: true,
         value: 'right'
+      },
+      /**
+        * If the popover should attempt to align itself dynamically.
+        * It will use the orientation you specify, unless there is not enough room,
+        * in which case it will decide the orientation that causes the least cropping.
+        * The caret will not be displayed for dynamically aligned popovers.
+        */
+        dynamicAlign: {
+        type: Boolean,
+        value: false
       },
       /**
         * The title that will be displayed in the popover.
         */
       popoverTitle: {
         type: String,
-        reflect: true,
         value: ''
       },
       /**
@@ -114,24 +106,16 @@ Custom property | Description
         */
       popoverBody: {
         type: String,
-        reflect: true,
         value: ''
       },
       /**
-        * If the target/popover are descendent of a relative position element, wrap the target and popover in another element with relative positioning and set this flag to "relative"
-        */
-      position: {
-        type:String,
-        value:"absolute"
-      },
-      /**
         * By default, the overlay covering the rest of the screen is off.
-        * This property should be set to false for mobile applications.
+        * This property should be set to true for mobile applications.
         */
-      hideOverlay: {
+      showOverlay: {
         type: Boolean,
-        value: true,
-        observer: 'hideOverlayChanged'
+        value: false,
+        observer: '_showOverlayChanged'
       },
       /**
         * Enhanced empowers the developer to fully control the inner HTML of the popover. For instance, the popover can be used to render a form or contain an embedded video.
@@ -148,28 +132,35 @@ Custom property | Description
       enhanced: {
         type: Boolean,
         value: false
-      },
-      /**
-        * Whether the popover is currently shown.
-        */
-      _isShowing: {
-        type: Boolean,
-        value: false
       }
     },
-    _getTarget: function() {
+    /**
+      * Sets up listeners when popover is created
+      */
+    attached: function () {
+      // Enable document-wide tap recognizer.
+      Polymer.Gestures.add(document, 'tap', null);
+      this._forChanged();
+    },
+    /**
+      * Removes listeners when popover is destroyed
+      */
+    detached: function () {
+      this.hideOverlayChanged(false);
+    },
+    _getTarget: function () {
       var ownerRoot = Polymer.dom(this).getOwnerRoot(),
-          parentNode = Polymer.dom(this).parentNode,
-          target;
+        parentNode = Polymer.dom(this).parentNode,
+        target;
 
-      if(this.for && typeof(this.for) === 'string') {
+      if (this.for && typeof (this.for) === 'string') {
         target = Polymer.dom(parentNode).querySelector('#' + this.for);
       }
-      else if(this.for && typeof(this.for) === 'object') {
+      else if (this.for && typeof (this.for) === 'object') {
         target = this.for;
       }
       //DOCUMENT_FRAGMENT_NODE
-      else if(parentNode.nodeType === 11) {
+      else if (parentNode.nodeType === 11) {
         //at this point if we can't find the actual owner root
         //we're probably not attached yet. Just set it to null
         //and wait for 'this' to be attached and rerun this function
@@ -180,52 +171,24 @@ Custom property | Description
       }
       return target;
     },
-    listeners: {
-        'iron-resize': '_onIronResize'
-    },
-    _forChanged: function() {
-      if(this._target) {
-        this.unlisten(this._target, 'click', '_toggle');
-        this.unlisten(this, 'click', '_toggle');
+    _forChanged: function () {
+      if (this._target) {
+        this.unlisten(this._target, 'tap', '_toggle');
+        this.unlisten(this, 'tap', '_toggle');
+        this._target.removeAttribute('slot');
       }
 
       this._target = this._getTarget();
 
-      if(this._target) {
-        this.listen(this._target, 'click', '_toggle');
-        this.listen(this, 'click', '_toggle');
-      }
-    },
-    /**
-      * Sets up listeners when popover is created
-      */
-    attached: function () {
-      // Enable document-wide tap recognizer.
-      Polymer.Gestures.add(document, 'tap', null);
-
-      //search for target
-      this._forChanged();
-
-      //if overlay is hidden make sure popover will be closed on any other click
-      this.hideOverlayChanged(this.hideOverlay);
-    },
-    /**
-      * Removes listeners when popover is destroyed
-      */
-    detached: function () {
-      // scroll
-      this.unlisten(window, 'scroll', '_toggle');
-      // click
-      this.unlisten(document, 'click', '_toggle');
-      this.hideOverlayChanged(false);
-    },
-    _onIronResize: function () {
-      if(this._isShowing) {
-        this._setPosition();
+      if (this._target) {
+        this.listen(this._target, 'tap', '_toggle');
+        this.listen(this, 'tap', '_toggle');
+        this._target.slot = 'dropdown-trigger';
+        this.$.dropdown.positionTarget = this._target;
       }
     },
     _isDescendant: function (parent, child) {
-    var node = child.parentNode;
+      var node = child.parentNode;
       while (node != null) {
         if (node === parent) {
           return true;
@@ -239,21 +202,17 @@ Custom property | Description
       */
     _toggle: function (event) {
       // hide the popover if a click is coming from the outside
-      if(event.type === 'click') {
-        if( this._isDescendant(this.$.popover__wrapper, event.target) ) {
+      if (event.type === 'tap') {
+        if (this._isDescendant(this.$.popover__wrapper, event.target)) {
           return false;
         }
         else {
-          if(event.target.id === this.for || this._isDescendant(document.querySelector('#' + this.for), event.target)) {
-            if(this._isShowing) {
-              this.hide();
-            } else {
-              this.show();
-            }
+          if (event.target.id === this.for || this._isDescendant(document.querySelector('#' + this.for), event.target)) {
+            this.show();
             return false;
           }
           else { // not our target
-            if(this._isShowing) {
+            if (this.$.dropdown.opened) {
               this.hide();
               return false;
             }
@@ -261,15 +220,48 @@ Custom property | Description
         }
       }
     },
+    _position: function (orientation, trigger) {
+      if (orientation === 'right') {
+        var hOffset = parseFloat(window.getComputedStyle(trigger).getPropertyValue('width'));
+        var vOffset = parseFloat(window.getComputedStyle(this.$.popover).getPropertyValue('height')) / 2 * -1;
+        this.$.dropdown.set('horizontalAlign', 'left');
+        this.$.dropdown.set('verticalAlign', 'top');
+        this.$.dropdown.set('horizontalOffset', hOffset);
+        this.$.dropdown.set('verticalOffset', vOffset);
+      }
+      if (orientation === 'left') {
+        var hOffset = parseFloat(window.getComputedStyle(this.$.popover).getPropertyValue('width')) * -1 - 15;
+        var vOffset = parseFloat(window.getComputedStyle(this.$.popover).getPropertyValue('height')) / 2 * -1;
+        this.$.dropdown.set('horizontalAlign', 'left');
+        this.$.dropdown.set('verticalAlign', 'top');
+        this.$.dropdown.set('horizontalOffset', hOffset);
+        this.$.dropdown.set('verticalOffset', vOffset);
+      }
+      if (orientation === 'top') {
+        var hOffset = parseFloat(window.getComputedStyle(this.$.popover).getPropertyValue('width')) / 2 * -1 + parseFloat(window.getComputedStyle(trigger).getPropertyValue('width')) / 2 - 10;
+        var vOffset = parseFloat(window.getComputedStyle(this.$.popover).getPropertyValue('height')) * -1 - 15;
+        this.$.dropdown.set('horizontalAlign', 'left');
+        this.$.dropdown.set('verticalAlign', 'top');
+        this.$.dropdown.set('horizontalOffset', hOffset);
+        this.$.dropdown.set('verticalOffset', vOffset);
+      }
+      if (orientation === 'bottom') {
+        var hOffset = parseFloat(window.getComputedStyle(this.$.popover).getPropertyValue('width')) / 2 * -1 + parseFloat(window.getComputedStyle(trigger).getPropertyValue('width')) / 2 - 10;
+        var vOffset = parseFloat(window.getComputedStyle(trigger).getPropertyValue('height'));
+        this.$.dropdown.set('horizontalAlign', 'left');
+        this.$.dropdown.set('verticalAlign', 'top');
+        this.$.dropdown.set('horizontalOffset', hOffset);
+        this.$.dropdown.set('verticalOffset', vOffset);
+      }
+    },
     /**
       * Displays the popover
       */
     show: function () {
-      // show this thing
-      this.toggleClass('fadeFromHidden',true, this.$.popover__wrapper);
-      this.toggleClass('fadeFromHidden',true, this.$$('px-overlay'));
-      this._setPosition();
-      this._isShowing = true;
+      this.$.dropdown.open();
+      window.setTimeout(function () {
+        this._position(this.orientation, this._target);
+      }.bind(this), 50);
       this.fire('px-popover-show', {
         target: this
       });
@@ -278,151 +270,22 @@ Custom property | Description
       * Hides the popover
       */
     hide: function () {
-      // hide this thing
-      this.toggleClass('fadeFromHidden',false, this.$.popover__wrapper);
-      this.toggleClass('fadeFromHidden',false, this.$$('px-overlay'));
-      this._isShowing = false;
+      this.$.dropdown.close();
       this.fire('px-popover-hide', {
         target: this
       });
     },
     /**
-      * Calculates which direction the popover should go and creates vars used in positioning the popover
-      */
-    _setPosition: function() {
-      if (!this._target) {
-        return;
-      }
-
-      // using this method so that we can calucate the best position
-      // in the _positionXXX methods without having to do recursion.
-      this.parentRect = this.offsetParent.getBoundingClientRect();
-      this.targetRect = this._target.getBoundingClientRect();
-      this.thisRect = this.$.popover__wrapper.getBoundingClientRect();
-      this.margin = parseInt(getComputedStyle(this.$.popover__wrapper).marginTop);
-
-      if(this.orientation === 'left') {
-        this._positionLeft();
-      }
-      else if (this.orientation === 'right') {
-        this._positionRight();
-      }
-      else if (this.orientation === 'top') {
-        this._positionTop();
-      }
-      else if (this.orientation === 'bottom') {
-        this._positionBottom();
-      }
-      else {
-        this._positionRight();
-      }
-
-    },
-
-    /**
-      * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
-      */
-    _positionTop: function () {
-      // position the popover itself
-      if(this.inRelativeElement()){
-        var xCoord = this.targetRect.width/2 - this.thisRect.width/2 - this.margin;
-        var yCoord = 0 - this.thisRect.height - this.margin * 2;
-        this.$.popover__wrapper.style.top =  yCoord + 'px';
-        this.$.popover__wrapper.style.left = xCoord + 'px';
-      }
-      else {
-        this.$.popover__wrapper.style.left = this.targetRect.left - this.thisRect.width/2 + this.targetRect.width/2 - this.margin - this.parentRect.left + 'px';
-        this.$.popover__wrapper.style.top = this.targetRect.top - this.thisRect.height - this.margin * 2 - this.parentRect.top + 'px';
-      }
-
-      // move the carat to the correct position
-      this.caratRect = this.$.popover__carat.getBoundingClientRect();
-      this.$.popover__carat.style.left = this.thisRect.width/2 - this.margin + 'px';
-      this.$.popover__carat.style.top = this.thisRect.height - this.caratRect.height + 1 + 'px';
-    },
-    /**
-      * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
-      */
-    _positionBottom: function () {
-      this.caratRect = this.$.popover__carat.getBoundingClientRect();
-
-      // position the popover itself
-      if(this.inRelativeElement()){
-
-        var xCoord = this.targetRect.width/2 - this.thisRect.width/2 - this.margin;
-        this.$.popover__wrapper.style.left = xCoord + 'px';
-
-      }
-      else {
-        this.$.popover__wrapper.style.left = this.targetRect.left - this.thisRect.width/2 + this.targetRect.width/2 - this.margin - this.parentRect.left + 'px';
-        this.$.popover__wrapper.style.top = this.targetRect.top + this.targetRect.height - 1 - this.parentRect.top + 'px';
-      }
-      // move the carat to the correct position
-      this.$.popover__carat.style.left = this.thisRect.width/2 - this.margin + 'px';
-      this.$.popover__carat.style.top = '3px';
-    },
-    /**
-      * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
-      */
-    _positionLeft: function () {
-      this.caratRect = this.$.popover__carat.getBoundingClientRect();
-
-      // position the popover itself
-      if(this.inRelativeElement()){
-        var xCoord = 0 - this.thisRect.width - this.margin * 2;
-        var yCoord = this.targetRect.height/2 - this.thisRect.height/2 - this.margin;
-        this.$.popover__wrapper.style.top =  yCoord + 'px';
-        this.$.popover__wrapper.style.left = xCoord + 'px';
-      }
-      else {
-        this.$.popover__wrapper.style.left = this.targetRect.left - this.thisRect.width - this.margin * 2 - this.parentRect.left + 'px';
-        this.$.popover__wrapper.style.top = this.targetRect.top + this.targetRect.height/2  - this.thisRect.height/2 - this.margin - this.parentRect.top + 'px';
-      }
-
-      // move the carat to the correct position
-      this.$.popover__carat.style.top = this.thisRect.height/2 - this.margin + 'px';
-      this.$.popover__carat.style.left = this.thisRect.width - this.caratRect.width/2 - this.margin + 'px';
-    },
-    /**
-      * Sets the left and top style attrs to position the popover. Using right or bottom attrs yields changing vars and are thus unreliable.
-      */
-    _positionRight: function () {
-        this.caratRect = this.$.popover__carat.getBoundingClientRect();
-
-        if(this.inRelativeElement()){
-          var xCoord = this.targetRect.width;
-          var yCoord = this.targetRect.height/2 - this.thisRect.height/2 - this.margin;
-          this.$.popover__wrapper.style.top =  yCoord + 'px';
-          this.$.popover__wrapper.style.left = xCoord + 'px';
-        }
-        else {
-          this.$.popover__wrapper.style.left = this.targetRect.left + this.targetRect.width - this.parentRect.left + 'px';
-          this.$.popover__wrapper.style.top = this.targetRect.top + this.targetRect.height/2  - this.thisRect.height/2 - this.margin - this.parentRect.top + 'px';
-        }
-
-        // move the carat to the correct position
-        this.$.popover__carat.style.top = this.thisRect.height/2 - this.margin + 'px';
-        this.$.popover__carat.style.left = '3px';
-    },
-    inRelativeElement: function(){
-      if(this.position !== "relative"){
-        return false;
-      }
-      else {
-        return true;
-      }
-    },
-    /**
       * Adds and removes event listeners if the `hide-overlay` property is changed.
       */
-    hideOverlayChanged: function(hideOverlay) {
+      _showOverlayChanged: function(showOverlay) {
 
-      if(hideOverlay === true) {
-        document.addEventListener('touchend', this._onCaptureClick.bind(this), true);
-        document.addEventListener('click', this._onCaptureClick.bind(this), true);
-      } else {
+      if(showOverlay === true) {
         document.removeEventListener('touchend', this._onCaptureClick.bind(this));
         document.removeEventListener('click', this._onCaptureClick.bind(this));
+      } else {
+        document.addEventListener('touchend', this._onCaptureClick.bind(this), true);
+        document.addEventListener('click', this._onCaptureClick.bind(this), true);
       }
     },
     /**
@@ -430,8 +293,8 @@ Custom property | Description
       * If the overlay is open and the click came from outside of
       * the popover, we hide it.
       */
-    _onCaptureClick: function(evt) {
-      if(this._isShowing) {
+      _onCaptureClick: function(evt) {
+      if(this.$.dropdown.opened) {
         var path = Polymer.dom(evt).path,
             length = path.length,
             isPopover = false,

@@ -36,6 +36,7 @@
       <!-- Component ---------------------------------------------------------->
       <px-demo-component>
         <div>
+          <!-- <px-icon id="{{props.for.value}}" icon="px-utl:app-settings"></px-icon> -->
           <button class="btn btn--tertiary" id="{{props.for.value}}" type="button" name="button">Click here</button>
           <px-popover
               for="{{props.for.value}}"
@@ -43,9 +44,10 @@
               popover-body="{{props.popoverBody.value}}"
               orientation="{{props.orientation.value}}"
               position="absolute"
-              enhanced="{{props.enhanced.value}}">
+              enhanced="{{props.enhanced.value}}"
+              dynamic-align="{{props.dynamicAlign.value}}">
               <template is="dom-if" if="{{props.enhanced.value}}">
-                <div>This is a form<form><input class="text-input" type="text" value="Input"></form></div>
+                <div slot="content">This is a form<form><input class="text-input" type="text" value="Input"></form></div>
               </template>
           </px-popover>
         </div>
@@ -92,16 +94,18 @@
               popoverTitle: "This is a bottom popover",
               popoverBody: "This is a bottom popover body",
               enhanced: false,
+              dynamicAlign: false,
               lightDomContent: "",
               siblingElement: "<button class='btn btn--tertiary' id='btn1' type='button' name='button'>Click here</button>" },
 
-            { configName: "Enhanced",
+            { configName: "Enhanced/dynamic",
               for: "btn1",
               orientation: "bottom",
               position: "absolute",
               popoverTitle: "",
               popoverBody: "",
               enhanced: true,
+              dynamicAlign: true,
               lightDomContent: "<form><label>This is a form<input class='text-input' type='text' value='Text Input'/></label></form>",
               siblingElement: "<button class='btn btn--tertiary' id='btn1' type='button' name='button'>Click here</button>" }
           ]
@@ -114,6 +118,12 @@
      */
     demoProps: {
       enhanced: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
+
+      dynamicAlign: {
         type: Boolean,
         defaultValue: false,
         inputType: 'toggle'
