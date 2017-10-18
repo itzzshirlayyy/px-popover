@@ -1,3 +1,7 @@
+v2.0.7
+==================
+* switch background-color to background (#18)
+
 v2.0.6
 ==================
 * fix to work with more complex triggers (#19)

@@ -44,7 +44,7 @@ $popover-max-width: var(--px-popover-max-width, 300px);
     padding: 20px;
     max-width: $popover-max-width;
     border: 1px solid $popover-border-color;
-    background-color: $popover-background-color;
+    background: $popover-background-color;
     margin: 7px;
     color: $popover-text-color;
     box-shadow: 0px 1px 3px 0px $popover-shadow-color;
