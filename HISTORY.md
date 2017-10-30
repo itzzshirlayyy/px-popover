@@ -1,3 +1,7 @@
+v2.0.8
+==================
+* migrate content to slot (#17)
+
 v2.0.7
 ==================
 * switch background-color to background (#18)
