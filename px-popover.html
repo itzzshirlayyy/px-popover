@@ -51,7 +51,7 @@ Custom property | Description
     <template>
       <style include="px-popover-styles"></style>
 
-      <template is="dom-if" if="{{!hideOverlay}}">
+      <template is="dom-if" if="{{showOverlay}}">
         <px-overlay type="light" class="fadeFromVisible"></px-overlay>
       </template>
       <div id="popover__wrapper" class="fadeFromVisible">
@@ -126,12 +126,12 @@ Custom property | Description
       },
       /**
         * By default, the overlay covering the rest of the screen is off.
-        * This property should be set to false for mobile applications.
+        * This property should be set for mobile applications.
         */
-      hideOverlay: {
+      showOverlay: {
         type: Boolean,
-        value: true,
-        observer: 'hideOverlayChanged'
+        value: false,
+        observer: 'showOverlayChanged'
       },
       /**
         * Enhanced empowers the developer to fully control the inner HTML of the popover. For instance, the popover can be used to render a form or contain an embedded video.
@@ -207,7 +207,7 @@ Custom property | Description
       this._forChanged();
 
       //if overlay is hidden make sure popover will be closed on any other click
-      this.hideOverlayChanged(this.hideOverlay);
+      this.showOverlayChanged(this.showOverlay);
     },
     /**
       * Removes listeners when popover is destroyed
@@ -217,7 +217,7 @@ Custom property | Description
       this.unlisten(window, 'scroll', '_toggle');
       // click
       this.unlisten(document, 'click', '_toggle');
-      this.hideOverlayChanged(false);
+      this.showOverlayChanged(false);
     },
     _onIronResize: function () {
       if(this._isShowing) {
@@ -415,9 +415,9 @@ Custom property | Description
     /**
       * Adds and removes event listeners if the `hide-overlay` property is changed.
       */
-    hideOverlayChanged: function(hideOverlay) {
+    showOverlayChanged: function(showOverlay) {
 
-      if(hideOverlay === true) {
+      if(showOverlay === false) {
         document.addEventListener('touchend', this._onCaptureClick.bind(this), true);
         document.addEventListener('click', this._onCaptureClick.bind(this), true);
       } else {
