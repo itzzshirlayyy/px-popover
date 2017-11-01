@@ -1,0 +1,68 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>px-popover Test Suite</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <link rel="import" href="../px-popover.html" />
+  <link rel="import" href="../../px-theme/px-theme-styles.html" />
+  <script src="px-popover-custom-tests.js"></script>
+  <style media="screen">
+    .sample-container {
+      width: 250px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hover-popover {
+      padding: 15px;
+      width: 200px;
+      background-color: black;
+      color: white;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    html,
+    body {
+      position: static !important
+    }
+  </style>
+</head>
+
+<body>
+  <custom-style>
+    <style include="px-theme-styles" is="custom-style"></style>
+  </custom-style>
+
+  <test-fixture id="popover-fixture">
+    <template>
+        <div class="sample-container">
+          <button id="btn" type="button" name="button">Up</button>
+          <px-popover id="popover" for="btn" orientation="top" popover-title="Popover" popover-body="Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod.">
+          </px-popover>
+        </div>
+        <p></p>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="popover-fixture-relative">
+    <template>
+        <div class="sample-container">
+          <div style="position:relative;">
+            <button id="btn" type="button" name="button">Up</button>
+            <px-popover id="popover" for="btn" orientation="top" popover-title="Popover" popover-body="Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod." style="position:relative;">
+            </px-popover>
+          </div>
+        </div>
+        <p></p>
+    </template>
+  </test-fixture>
+
+</body>
+
+</html>
