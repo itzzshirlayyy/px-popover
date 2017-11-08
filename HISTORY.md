@@ -1,3 +1,7 @@
+v2.1.2
+==================
+* update to released dependencies
+
 v2.1.1
 ==================
 * fix webcomponents import
