@@ -1,3 +1,27 @@
+v2.1.1
+==================
+* fix webcomponents import
+
+v2.1.0
+==================
+* Polymer 1.x/2.x hybrid element support
+
+v2.0.10
+==================
+* fix broken overlay logic
+
+v2.0.9
+==================
+* add device flags
+
+v2.0.8
+==================
+* migrate content to slot (#17)
+
+v2.0.7
+==================
+* switch background-color to background (#18)
+
 v2.0.6
 ==================
 * fix to work with more complex triggers (#19)
