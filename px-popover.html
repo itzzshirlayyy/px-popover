@@ -270,6 +270,12 @@ Custom property | Description
       this.toggleClass('fadeFromHidden',true, this.$$('px-overlay'));
       this._setPosition();
       this._isShowing = true;
+      /**
+      * @event px-popover-show
+      *
+      * Event fired when the px-popover is shown.
+      * `event.detail.target` contains a reference to the px-popover element.
+      */
       this.fire('px-popover-show', {
         target: this
       });
@@ -282,6 +288,12 @@ Custom property | Description
       this.toggleClass('fadeFromHidden',false, this.$.popover__wrapper);
       this.toggleClass('fadeFromHidden',false, this.$$('px-overlay'));
       this._isShowing = false;
+      /**
+      * @event px-popover-hide
+      *
+      * Event fired when the px-popover is hidden.
+      * `event.detail.target` contains a reference to the px-popover element.
+      */
       this.fire('px-popover-hide', {
         target: this
       });

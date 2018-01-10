@@ -1,3 +1,7 @@
+v2.1.3
+==================
+* add missing events to API doc
+
 v2.1.2
 ==================
 * update to released dependencies
