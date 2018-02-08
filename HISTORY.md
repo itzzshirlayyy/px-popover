@@ -1,3 +1,7 @@
+v2.2.2
+==================
+* fix demo for enhanced
+
 v2.2.1
 ==================
 * `enhanced` property re-added to avoid API breaking change

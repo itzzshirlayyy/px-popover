@@ -46,7 +46,8 @@
             popover-body="{{props.popoverBody.value}}"
             orientation="{{props.orientation.value}}"
             show-overlay="{{props.showOverlay.value}}"
-            scroll-action="{{props.scrollAction.value}}">
+            scroll-action="{{props.scrollAction.value}}"
+            enhanced="{{props.enhanced.value}}">
             <template is="dom-if" if="[[isCustom(chosenConfig)]]">
                 <form><label>This is a form<input class='text-input' type='text' value='Text Input'/></label></form>
             </template>
@@ -96,6 +97,7 @@
               popoverTitle: "This is a bottom popover",
               popoverBody: "This is a bottom popover body",
               showOverlay: true,
+              enhanced: false,
               lightDomContent: "",
               siblingElement: "<button class='btn btn--tertiary' id='btn1' type='button' name='button'>Click here</button>" },
 
@@ -106,6 +108,7 @@
               popoverTitle: "",
               popoverBody: "",
               showOverlay: false,
+              enhanced: true,
               lightDomContent: "<form><label>This is a form<input class='text-input' type='text' value='Text Input'/></label></form>",
               siblingElement: "<button class='btn btn--tertiary' id='btn1' type='button' name='button'>Click here</button>" }
           ]
@@ -119,6 +122,12 @@
     demoProps: {
 
       showOverlay: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
+
+      enhanced: {
         type: Boolean,
         defaultValue: false,
         inputType: 'toggle'
