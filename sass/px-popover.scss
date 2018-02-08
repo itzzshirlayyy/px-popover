@@ -21,94 +21,114 @@ $popover-border-color: var(--px-popover-border-color, black);
 $popover-text-color: var(--px-popover-text-color, black);
 $popover-shadow-color: var(--px-popover-shadow-color, black);
 $popover-max-width: var(--px-popover-max-width, 300px);
+$carat-size: 7.5px;
 
-#popover__wrapper{
-  position: absolute;
-  z-index: 1005;
-  margin: 5px;
-}
-
-.fadeFromVisible {
-  opacity: 0;
-  visibility: hidden;
-  transition: visibility 0s .10s, opacity .10s ease-out;
-}
-
-.fadeFromHidden{
-  transition: opacity .10s ease-out;
-  opacity: 1;
-  visibility: visible;
-}
 #popover {
-    outline: none;
-    padding: 20px;
-    max-width: $popover-max-width;
-    border: 1px solid $popover-border-color;
-    background: $popover-background-color;
-    margin: 7px;
-    color: $popover-text-color;
-    box-shadow: 0px 1px 3px 0px $popover-shadow-color;
-    h5 {
-        margin: 0px 0px 20px 0px;
-    }
-    p {
-        margin: 0;
-        word-wrap: break-word;
-    }
-}
-
-div#popover__carat {
-    position: absolute;
-    width: 9.899px; //sqrt(7*7 + 7*7)
-    height: 9.899px;
-    background-color: $popover-background-color;
-    &.top {
-        border: 1px solid transparent;
-        border-color: transparent transparent $popover-border-color $popover-border-color ;
-        transform-origin: 50% 50%;
-        transform: rotate(-45deg);
-        box-shadow: 1px 0px 0px $popover-background-color,
-                    -1px 1px 1px $popover-shadow-color;
-    }
-    &.bottom {
-        border: 1px solid transparent;
-        border-color: $popover-border-color transparent transparent $popover-border-color;
-        transform-origin: 50% 50%;
-        transform: rotate(45deg);
-    }
-    &.left {
-        border: 1px solid transparent;
-        border-color: $popover-border-color $popover-border-color transparent transparent;
-        transform-origin: 50% 50%;
-        transform: rotate(45deg);
-        box-shadow: -1px 1px 0px $popover-background-color,
-                    1px 0px 1px $popover-shadow-color;
-    }
-    &.right, &.auto {
-        border: 1px solid transparent;
-        border-color: $popover-border-color transparent transparent  $popover-border-color;
-        transform-origin: 50% 50%;
-        transform: rotate(-45deg);
-        box-shadow: 1px 1px 0px $popover-background-color,
-                    -1px 0px 1px $popover-shadow-color;
-    }
-}
-
-// Mozilla has a rendering issue drawing a thin line around the carat when the drop shadow despite the overlapping
-@-moz-document url-prefix() {
-  div#carat {
-    &.top {
-      box-shadow: -1px 1px 0px $popover-shadow-color;
-    }
-    &.left{
-      box-shadow: 0px 2px 0px $popover-background-color,
-                  1px 0px 0px $popover-shadow-color;
-    }
-    &.right{
-      box-shadow: 0px 2px 0px $popover-background-color,
-                  -1px 0px 0px $popover-shadow-color;
-    }
+  outline: none;
+  padding: 20px;
+  max-width: $popover-max-width;
+  border: 1px solid $popover-border-color;
+  background: $popover-background-color;
+  color: $popover-text-color;
+  box-shadow: 0px 1px 3px 0px $popover-shadow-color;
+  h5 {
+    margin: 0px 0px 20px 0px;
   }
+  p {
+    margin: 0;
+    word-wrap: break-word;
+  }
+}
+//carat on the left
+#popover.right:after, #popover.right:before {
+	right: calc(100% - 1px);
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+}
+#popover.right:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-right-color: $popover-background-color;
+	border-width: $carat-size;
+	margin-top: -$carat-size;
+}
+#popover.right:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-right-color: $popover-border-color;
+	border-width: $carat-size + 1px;
+	margin-top: -$carat-size - 1px;
+}
+
+//carat on the right
+#popover.left:after, #popover.left:before {
+	left: calc(100% - 1px);
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+}
+#popover.left:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-left-color: $popover-background-color;
+	border-width: $carat-size;
+	margin-top: -$carat-size;
+}
+#popover.left:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-left-color: $popover-border-color;
+	border-width: $carat-size + 1px;
+	margin-top: -$carat-size - 1px;
+}
+
+//carat on top
+#popover.bottom:after, #popover.bottom:before {
+	left: 50%;
+	bottom: calc(100% - 1px);
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+}
+#popover.bottom:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-bottom-color: $popover-background-color;
+	border-width: $carat-size;
+	margin-left: -$carat-size;
+}
+#popover.bottom:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-bottom-color: $popover-border-color;
+	border-width: $carat-size + 1px;
+	margin-left: -$carat-size - 1px;
+}
+
+//carat on bottom
+#popover.top:after, #popover.top:before {
+	left: 50%;
+	top: calc(100% - 1px);
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+}
+#popover.top:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-top-color: $popover-background-color;
+	border-width: $carat-size;
+	margin-left: -$carat-size;
+}
+#popover.top:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-top-color: $popover-border-color;
+	border-width: $carat-size + 1px;
+	margin-left: -$carat-size - 1px;
 }
 
 // Trumps

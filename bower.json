@@ -1,6 +1,6 @@
 {
   "name": "px-popover",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "main": [
     "px-popover.html"
   ],
@@ -21,9 +21,8 @@
     "*.png"
   ],
   "dependencies": {
-    "iron-resizable-behavior": "^2.0.0",
     "polymer": "#1.9 - 2",
-    "px-overlay": "^1.0.0"
+    "iron-dropdown": "^2.1.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",

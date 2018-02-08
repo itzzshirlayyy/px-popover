@@ -24,7 +24,7 @@
     <!-- Header -->
     <px-demo-header
         module-name="px-popover"
-        description="The popover is similar to a tooltip, but is invoked by clicking instead of hovering on a target component. Popovers have an optional title, and can also contain richer content than a basic tooltip – longer or formatted text, labels, badges, etc. Popovers stay visible on screen until the user clicks outside of the popover."
+        description="The popover is similar to a tooltip, but is invoked by clicking instead of hovering on a target component. Popovers have an optional title, and can also contain richer content – longer or formatted text, labels, badges, etc. Popovers stay visible on screen until the user clicks outside of the popover."
         desktop>
     </px-demo-header>
 
@@ -41,16 +41,15 @@
         <div>
           <button class="btn btn--tertiary" id="{{props.for.value}}" type="button" name="button">Click here</button>
           <px-popover
-              for="{{props.for.value}}"
-              popover-title="{{props.popoverTitle.value}}"
-              popover-body="{{props.popoverBody.value}}"
-              orientation="{{props.orientation.value}}"
-              position="absolute"
-              enhanced="{{props.enhanced.value}}"
-              show-overlay="{{props.showOverlay.value}}">
-              <template is="dom-if" if="{{props.enhanced.value}}">
-                <div>This is a form<form><input class="text-input" type="text" value="Input"></form></div>
-              </template>
+            for="{{props.for.value}}"
+            popover-title="{{props.popoverTitle.value}}"
+            popover-body="{{props.popoverBody.value}}"
+            orientation="{{props.orientation.value}}"
+            show-overlay="{{props.showOverlay.value}}"
+            scroll-action="{{props.scrollAction.value}}">
+            <template is="dom-if" if="[[isCustom(chosenConfig)]]">
+                <form><label>This is a form<input class='text-input' type='text' value='Text Input'/></label></form>
+            </template>
           </px-popover>
         </div>
       </px-demo-component>
@@ -64,7 +63,7 @@
     </px-demo-interactive>
 
     <!-- API Viewer -->
-    <px-demo-api-viewer source="px-popover" hide='["assignParentResizable","getTargetPositionCenterOfLeftRight","getTargetPositionCenterOfTopBottom","notifyResize","resizerShouldNotify","stopResizeNotificationsFor"]'></px-demo-api-viewer>
+    <px-demo-api-viewer source="px-popover" hide='["assignParentResizable","notifyResize","resizerShouldNotify","stopResizeNotificationsFor"]'></px-demo-api-viewer>
 
     <!-- Footer -->
     <px-demo-footer></px-demo-footer>
@@ -96,19 +95,17 @@
               position: "absolute",
               popoverTitle: "This is a bottom popover",
               popoverBody: "This is a bottom popover body",
-              enhanced: false,
-              showOverlay: false,
+              showOverlay: true,
               lightDomContent: "",
               siblingElement: "<button class='btn btn--tertiary' id='btn1' type='button' name='button'>Click here</button>" },
 
-            { configName: "Enhanced",
+            { configName: "Custom content",
               for: "btn1",
               orientation: "bottom",
               position: "absolute",
               popoverTitle: "",
               popoverBody: "",
-              enhanced: true,
-              showOverlay: true,
+              showOverlay: false,
               lightDomContent: "<form><label>This is a form<input class='text-input' type='text' value='Text Input'/></label></form>",
               siblingElement: "<button class='btn btn--tertiary' id='btn1' type='button' name='button'>Click here</button>" }
           ]
@@ -120,11 +117,6 @@
      * A reference for `this.props`. Read the documentation there.
      */
     demoProps: {
-      enhanced: {
-        type: Boolean,
-        defaultValue: false,
-        inputType: 'toggle'
-      },
 
       showOverlay: {
         type: Boolean,
@@ -136,7 +128,14 @@
         type: String,
         defaultValue: 'right',
         inputType: 'dropdown',
-        inputChoices: ['left', 'right', 'top', 'bottom']
+        inputChoices: ['left', 'right', 'top', 'bottom', 'auto']
+      },
+
+      scrollAction: {
+        type: String,
+        defaultValue: 'lock',
+        inputType: 'dropdown',
+        inputChoices: ['cancel', 'lock']
       },
 
       for: {
@@ -152,7 +151,7 @@
 
       popoverBody: {
         type: String,
-        defaultValue: 'Capable of displaying a longer body text than a tootip.',
+        defaultValue: 'The popover-body is displayed here.',
         inputType: 'text'
       },
 
@@ -165,6 +164,10 @@
         type: String,
         defaultValue: ""
       }
+    },
+
+    isCustom: function(config) {
+      return config.configName === 'Custom content';
     }
 
   });

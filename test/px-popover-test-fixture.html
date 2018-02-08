@@ -11,27 +11,6 @@
   <link rel="import" href="../px-popover.html" />
   <link rel="import" href="../../px-theme/px-theme-styles.html" />
   <script src="px-popover-custom-tests.js"></script>
-  <style media="screen">
-    .sample-container {
-      width: 250px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .hover-popover {
-      padding: 15px;
-      width: 200px;
-      background-color: black;
-      color: white;
-      text-align: center;
-      vertical-align: middle;
-    }
-
-    html,
-    body {
-      position: static !important
-    }
-  </style>
 </head>
 
 <body>
@@ -41,25 +20,9 @@
 
   <test-fixture id="popover-fixture">
     <template>
-        <div class="sample-container">
-          <button id="btn" type="button" name="button">Up</button>
-          <px-popover id="popover" for="btn" orientation="top" popover-title="Popover" popover-body="Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod.">
-          </px-popover>
-        </div>
-        <p></p>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="popover-fixture-relative">
-    <template>
-        <div class="sample-container">
-          <div style="position:relative;">
-            <button id="btn" type="button" name="button">Up</button>
-            <px-popover id="popover" for="btn" orientation="top" popover-title="Popover" popover-body="Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod." style="position:relative;">
-            </px-popover>
-          </div>
-        </div>
-        <p></p>
+      <button style="margin-left:100px;" id="btn" type="button" name="button">Up</button>
+      <px-popover id="popover" for="btn" orientation="bottom" popover-title="Popover" popover-body="Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod.">
+      </px-popover>
     </template>
   </test-fixture>
 

@@ -1,3 +1,11 @@
+v2.2.0
+==================
+* refactor to use iron-dropdown
+* add orientation option `auto` (#14)
+* fix scrollOffset issue (#16)
+* `enhanced` property removed, child content slotted by default
+* `position` property removed, parent sizing irrelevant
+
 v2.1.3
 ==================
 * add missing events to API doc
