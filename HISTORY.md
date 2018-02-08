@@ -1,3 +1,8 @@
+v2.2.1
+==================
+* `enhanced` property re-added to avoid API breaking change
+* `position` property re-added to avoid API breaking change
+
 v2.2.0
 ==================
 * refactor to use iron-dropdown

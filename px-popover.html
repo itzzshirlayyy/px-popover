@@ -60,7 +60,9 @@ Custom property | Description
           <template is="dom-if" if="{{popoverBody}}">
             <p>{{popoverBody}}</p>
           </template>
-          <slot></slot>
+          <template is="dom-if" if="{{enhanced}}">
+            <slot></slot>
+          </template>
         </div>
       </iron-dropdown>
 
@@ -117,10 +119,33 @@ Custom property | Description
         value: ''
       },
       /**
+        * Deprecated: this property is not actually used by the component anymore, but is retained for backward compatibility.
+        */
+        position: {
+        type:String,
+        value:""
+      },
+      /**
         * By default, the overlay covering the rest of the screen is off.
         * This property should be set for mobile applications.
         */
       showOverlay: {
+        type: Boolean,
+        value: false
+      },
+      /**
+        * Enhanced empowers the developer to fully control the inner HTML of the popover. For instance, the popover can be used to render a form or contain an embedded video.
+        * To inject your custom HTML, simply include your custom markup as the first child of the px-popover when declaring the px-popover in your application. Sample provided below.
+        *
+        *     <px-popover for="someElement" enhanced>
+        *         <form>
+        *            <label>This is a form
+        *              <input type='text'/>
+        *            </label>
+        *         </form>
+        *     </px-popover>
+        */
+        enhanced: {
         type: Boolean,
         value: false
       },
