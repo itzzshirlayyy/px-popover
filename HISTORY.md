@@ -1,3 +1,7 @@
+v2.2.3
+==================
+* Fix demo for IE
+
 v2.2.2
 ==================
 * fix demo for enhanced
