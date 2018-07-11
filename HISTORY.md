@@ -1,3 +1,8 @@
+v2.2.4
+==================
+* Added missing null check in setPosition function
+* Changed node version from stable to 9 since node-sass won't compile on node 10
+
 v2.2.3
 ==================
 * Fix demo for IE
