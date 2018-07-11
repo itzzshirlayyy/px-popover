@@ -278,7 +278,7 @@ Custom property | Description
       });
     },
     _setPosition: function(orientation, target) {
-      if(orientation === undefined || target === undefined) return;
+      if(orientation === undefined || target === undefined || target === null) return;
       window.setTimeout(function() {
         if(orientation === 'right') {
           this.$.dropdown.verticalAlign = 'middle';
